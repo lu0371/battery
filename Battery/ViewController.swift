@@ -6,12 +6,14 @@
 //  Copyright © 2015 Steve Trease. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
 class ViewController: UIViewController {
     
     @IBOutlet var batteryLevel: UILabel!
     @IBOutlet var chargeStatus: UILabel!
+    @IBOutlet var powerState: UILabel!
     
     var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
     
@@ -27,6 +29,8 @@ class ViewController: UIViewController {
         // set to update labels on battery status change notifications (only works in foreground)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "batteryLevelChanged", name: UIDeviceBatteryLevelDidChangeNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "batteryLevelChanged", name: UIDeviceBatteryStateDidChangeNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "batteryLevelChanged", name: NSProcessInfoPowerStateDidChangeNotification, object: nil)
+
         
         // run a background task every fifteen minutes to call batteryLevelChanged
         backgroundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({
@@ -44,6 +48,7 @@ class ViewController: UIViewController {
         formatter.numberStyle = .PercentStyle
         
         batteryLevel.text = formatter.stringFromNumber(UIDevice.currentDevice().batteryLevel)
+        
         switch UIDevice.currentDevice().batteryState {
         case UIDeviceBatteryState.Unknown:
             chargeStatus.text = "Unknown"
@@ -54,6 +59,15 @@ class ViewController: UIViewController {
         case UIDeviceBatteryState.Full:
             chargeStatus.text = "Full"
         }
+        
+        if NSProcessInfo.processInfo().lowPowerModeEnabled {
+            // Low Power Mode is enabled. Start reducing activity to conserve energy.
+            powerState.text = "Low power mode enabled"
+        } else {
+            // Low Power Mode is enabled. Start reducing activity to conserve energy.
+            powerState.text = "Low power mode disabled"
+        }
+        
         
         print("battery status change: " + chargeStatus.text! + " " + batteryLevel.text!)
 
