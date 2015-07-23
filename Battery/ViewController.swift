@@ -63,15 +63,16 @@ class ViewController: UIViewController {
         if NSProcessInfo.processInfo().lowPowerModeEnabled {
             // Low Power Mode is enabled. Start reducing activity to conserve energy.
             powerState.text = "Low power mode enabled"
+            powerState.hidden = false
         } else {
             // Low Power Mode is enabled. Start reducing activity to conserve energy.
             powerState.text = "Low power mode disabled"
+            powerState.hidden = true
         }
-        
         
         print("battery status change: " + chargeStatus.text! + " " + batteryLevel.text!)
 
-        let request = NSMutableURLRequest(URL: NSURL(string: "http://www.trease.eu/ibeacon/battery/")!)
+        let request = NSMutableURLRequest(URL: NSURL(string: "https://www.trease.eu/ibeacon/battery/")!)
         request.HTTPMethod = "POST"
         var bodyData = "&device=\(UIDevice.currentDevice().name)"
         bodyData += "&batterystate=" + chargeStatus.text!
@@ -83,8 +84,8 @@ class ViewController: UIViewController {
             let x = response as? NSHTTPURLResponse
             print ("status code \(x?.statusCode)")
         }
-        task!.resume()
-     }
+        task.resume()
+    }
     
     
 
@@ -93,4 +94,3 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 }
-
