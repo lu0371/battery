@@ -16,9 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        
-        UIDevice.currentDevice().batteryMonitoringEnabled = true
-
         switch (application.applicationState) {
         case UIApplicationState.Active:
             print ("didFinishLaunchingWithOptions - active")
@@ -29,7 +26,60 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         
+        if(UIApplication.instancesRespondToSelector(Selector("registerUserNotificationSettings:"))) {
+            UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings (forTypes: UIUserNotificationType.Alert, categories: nil))
+        }
+        
+        // setup reoccuring local notification
+        let localNotification = UILocalNotification()
+        localNotification.fireDate = NSDate(timeIntervalSinceNow: 60)
+        localNotification.alertBody = "update"
+        localNotification.timeZone = NSTimeZone.defaultTimeZone()
+        localNotification.repeatInterval = NSCalendarUnit.Hour
+        UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+
+        
+        UIDevice.currentDevice().batteryMonitoringEnabled = true
+
         return true
+    }
+    
+    
+    func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
+        print ("didRecieveLocalNotification")
+        
+        let formatter =  NSNumberFormatter()
+        formatter.numberStyle = .PercentStyle
+        
+        let batteryLevel = formatter.stringFromNumber(UIDevice.currentDevice().batteryLevel)
+        var chargeStatus = ""
+        
+        switch UIDevice.currentDevice().batteryState {
+        case UIDeviceBatteryState.Unknown:
+            chargeStatus = "Unknown"
+        case UIDeviceBatteryState.Unplugged:
+            chargeStatus = "Unplugged"
+        case UIDeviceBatteryState.Charging:
+            chargeStatus = "Charging"
+        case UIDeviceBatteryState.Full:
+            chargeStatus = "Full"
+        }
+        
+        print("battery status change: " + chargeStatus + " " + batteryLevel!)
+        
+        let request = NSMutableURLRequest(URL: NSURL(string: "https://www.trease.eu/ibeacon/battery/")!)
+        request.HTTPMethod = "POST"
+        var bodyData = "&device=\(UIDevice.currentDevice().name)"
+        bodyData += "&batterystate=" + chargeStatus
+        bodyData += "&batterylevel=\(UIDevice.currentDevice().batteryLevel)"
+        request.HTTPBody = bodyData.dataUsingEncoding(NSUTF8StringEncoding)
+        
+        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
+            data, response, error in
+            let x = response as? NSHTTPURLResponse
+            print ("status code \(x?.statusCode)")
+        }
+        task.resume()
     }
 
     func applicationWillResignActive(application: UIApplication) {
