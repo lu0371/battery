@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		AA42B2481B3C46FE007331F1 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AA42B2471B3C46FE007331F1 /* Settings.bundle */; };
-		AAA72CCF1B692D0500F056AF /* 15548921480_a3ce9eafa3_o.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AAA72CCE1B692D0500F056AF /* 15548921480_a3ce9eafa3_o.jpg */; };
 		AAB12A701B28869700957578 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB12A6F1B28869700957578 /* AppDelegate.swift */; };
 		AAB12A721B28869700957578 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB12A711B28869700957578 /* ViewController.swift */; };
 		AAB12A751B28869700957578 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAB12A731B28869700957578 /* Main.storyboard */; };
@@ -37,7 +36,6 @@
 
 /* Begin PBXFileReference section */
 		AA42B2471B3C46FE007331F1 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
-		AAA72CCE1B692D0500F056AF /* 15548921480_a3ce9eafa3_o.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 15548921480_a3ce9eafa3_o.jpg; sourceTree = "<group>"; };
 		AAB12A6C1B28869600957578 /* Battery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Battery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB12A6F1B28869700957578 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AAB12A711B28869700957578 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -105,7 +103,6 @@
 				AAB12A711B28869700957578 /* ViewController.swift */,
 				AAB12A731B28869700957578 /* Main.storyboard */,
 				AAB12A761B28869700957578 /* Assets.xcassets */,
-				AAA72CCE1B692D0500F056AF /* 15548921480_a3ce9eafa3_o.jpg */,
 				AAB12A781B28869700957578 /* LaunchScreen.storyboard */,
 				AAB12A7B1B28869700957578 /* Info.plist */,
 				AA42B2471B3C46FE007331F1 /* Settings.bundle */,
@@ -242,7 +239,6 @@
 			files = (
 				AA42B2481B3C46FE007331F1 /* Settings.bundle in Resources */,
 				AAB12A7A1B28869700957578 /* LaunchScreen.storyboard in Resources */,
-				AAA72CCF1B692D0500F056AF /* 15548921480_a3ce9eafa3_o.jpg in Resources */,
 				AAB12A771B28869700957578 /* Assets.xcassets in Resources */,
 				AAB12A751B28869700957578 /* Main.storyboard in Resources */,
 			);
