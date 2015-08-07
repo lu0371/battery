@@ -25,18 +25,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print ("didFinishLaunchingWithOptions - background")
         }
         
-        
+        // prompt to reister for notitfications
         if(UIApplication.instancesRespondToSelector(Selector("registerUserNotificationSettings:"))) {
-            UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings (forTypes: UIUserNotificationType.Alert, categories: nil))
+            UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings (forTypes: UIUserNotificationType.None, categories: nil))
         }
         
         // setup reoccuring local notification
-        let localNotification = UILocalNotification()
+        var localNotification = UILocalNotification()
         localNotification.fireDate = NSDate(timeIntervalSinceNow: 60)
         localNotification.alertBody = "update"
         localNotification.timeZone = NSTimeZone.defaultTimeZone()
         localNotification.repeatInterval = NSCalendarUnit.Hour
         UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+
+        
+        // and again every fifteen minutes
+        localNotification.fireDate = NSDate(timeIntervalSinceNow: 60 + (15 * 60))
+        UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+        localNotification.fireDate = NSDate(timeIntervalSinceNow: 60 + (30 * 60))
+        UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+        localNotification.fireDate = NSDate(timeIntervalSinceNow: 60 + (45 * 60))
+        UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+
 
         
         UIDevice.currentDevice().batteryMonitoringEnabled = true
