@@ -25,30 +25,51 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print ("didFinishLaunchingWithOptions - background")
         }
         
-        // prompt to reister for notitfications
+        // prompt to register for notitfications
         if(UIApplication.instancesRespondToSelector(Selector("registerUserNotificationSettings:"))) {
             UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings (forTypes: UIUserNotificationType.None, categories: nil))
         }
         
+        
+        UIApplication.sharedApplication().cancelAllLocalNotifications()
+        
         // setup reoccuring local notification
-        var localNotification = UILocalNotification()
-        localNotification.fireDate = NSDate(timeIntervalSinceNow: 60)
-        localNotification.alertBody = "update"
-        localNotification.timeZone = NSTimeZone.defaultTimeZone()
-        localNotification.repeatInterval = NSCalendarUnit.Hour
-        UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+        let localNotification1 = UILocalNotification()
+        localNotification1.timeZone = NSTimeZone.defaultTimeZone()
+        localNotification1.repeatInterval = NSCalendarUnit.Hour
+        localNotification1.hasAction = false
+        localNotification1.fireDate = NSDate(timeIntervalSinceNow: 15 * 60)
+        localNotification1.alertTitle = "1"
+        UIApplication.sharedApplication().scheduleLocalNotification(localNotification1)
 
+        let localNotification2 = UILocalNotification()
+        localNotification2.timeZone = NSTimeZone.defaultTimeZone()
+        localNotification2.repeatInterval = NSCalendarUnit.Hour
+        localNotification2.hasAction = false
+        localNotification2.fireDate = NSDate(timeIntervalSinceNow: 30 * 60)
+        localNotification2.alertTitle = "2"
+        UIApplication.sharedApplication().scheduleLocalNotification(localNotification2)
         
-        // and again every fifteen minutes
-        localNotification.fireDate = NSDate(timeIntervalSinceNow: 60 + (15 * 60))
-        UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
-        localNotification.fireDate = NSDate(timeIntervalSinceNow: 60 + (30 * 60))
-        UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
-        localNotification.fireDate = NSDate(timeIntervalSinceNow: 60 + (45 * 60))
-        UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
-
-
+        let localNotification3 = UILocalNotification()
+        localNotification3.timeZone = NSTimeZone.defaultTimeZone()
+        localNotification3.repeatInterval = NSCalendarUnit.Hour
+        localNotification3.hasAction = false
+        localNotification3.fireDate = NSDate(timeIntervalSinceNow: 45 * 60)
+        localNotification3.alertTitle = "3"
+        UIApplication.sharedApplication().scheduleLocalNotification(localNotification3)
         
+        let localNotification4 = UILocalNotification()
+        localNotification4.timeZone = NSTimeZone.defaultTimeZone()
+        localNotification4.repeatInterval = NSCalendarUnit.Hour
+        localNotification4.hasAction = false
+        localNotification4.fireDate = NSDate(timeIntervalSinceNow: 60 * 60)
+        localNotification4.alertTitle = "4"
+        UIApplication.sharedApplication().scheduleLocalNotification(localNotification4)
+
+        let notifications = UIApplication.sharedApplication().scheduledLocalNotifications!
+        print ("\(notifications.count) notifications registered")
+        
+
         UIDevice.currentDevice().batteryMonitoringEnabled = true
 
         return true
@@ -56,7 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
-        print ("didRecieveLocalNotification")
+        print ("didRecieveLocalNotification " + notification.alertTitle!)
         
         let formatter =  NSNumberFormatter()
         formatter.numberStyle = .PercentStyle
@@ -75,7 +96,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             chargeStatus = "Full"
         }
         
-        print("battery status change: " + chargeStatus + " " + batteryLevel!)
+        print(chargeStatus + " " + batteryLevel!)
         
         let request = NSMutableURLRequest(URL: NSURL(string: "https://www.trease.eu/ibeacon/battery/")!)
         request.HTTPMethod = "POST"

@@ -21,7 +21,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        print("starting")
+        print("viewDidLoad")
         
         // set initial value
         batteryLevelChanged()
@@ -43,6 +43,7 @@ class ViewController: UIViewController {
     }
     
     func batteryLevelChanged() {
+        print ("batteryLevelChanged")
     
         let formatter =  NSNumberFormatter()
         formatter.numberStyle = .PercentStyle
@@ -70,7 +71,7 @@ class ViewController: UIViewController {
             powerState.hidden = true
         }
         
-        print("battery status change: " + chargeStatus.text! + " " + batteryLevel.text!)
+        print(chargeStatus.text! + " " + batteryLevel.text!)
 
         let request = NSMutableURLRequest(URL: NSURL(string: "https://www.trease.eu/ibeacon/battery/")!)
         request.HTTPMethod = "POST"
