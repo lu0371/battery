@@ -40,6 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         localNotification1.hasAction = false
         localNotification1.fireDate = NSDate(timeIntervalSinceNow: 15 * 60)
         localNotification1.alertTitle = "1"
+        localNotification1.alertBody = "1"
         UIApplication.sharedApplication().scheduleLocalNotification(localNotification1)
 
         let localNotification2 = UILocalNotification()
@@ -48,6 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         localNotification2.hasAction = false
         localNotification2.fireDate = NSDate(timeIntervalSinceNow: 30 * 60)
         localNotification2.alertTitle = "2"
+        localNotification1.alertBody = "2"
         UIApplication.sharedApplication().scheduleLocalNotification(localNotification2)
         
         let localNotification3 = UILocalNotification()
@@ -56,6 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         localNotification3.hasAction = false
         localNotification3.fireDate = NSDate(timeIntervalSinceNow: 45 * 60)
         localNotification3.alertTitle = "3"
+        localNotification1.alertBody = "3"
         UIApplication.sharedApplication().scheduleLocalNotification(localNotification3)
         
         let localNotification4 = UILocalNotification()
@@ -64,6 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         localNotification4.hasAction = false
         localNotification4.fireDate = NSDate(timeIntervalSinceNow: 60 * 60)
         localNotification4.alertTitle = "4"
+        localNotification1.alertBody = "4"
         UIApplication.sharedApplication().scheduleLocalNotification(localNotification4)
 
         let notifications = UIApplication.sharedApplication().scheduledLocalNotifications!
