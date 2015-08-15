@@ -6,7 +6,7 @@
 	<array>
 		<dict>
 			<key>DefaultValue</key>
-			<string>81</string>
+			<string>87</string>
 			<key>Key</key>
 			<string>CurrentBuildNumber</string>
 			<key>Title</key>

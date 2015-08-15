@@ -77,6 +77,7 @@ class ViewController: UIViewController {
         request.HTTPMethod = "POST"
         var bodyData = "&device=\(UIDevice.currentDevice().name)"
         bodyData += "&batterystate=" + chargeStatus.text!
+        bodyData += "&reason=changed" 
         bodyData += "&batterylevel=\(UIDevice.currentDevice().batteryLevel)"
         request.HTTPBody = bodyData.dataUsingEncoding(NSUTF8StringEncoding)
         

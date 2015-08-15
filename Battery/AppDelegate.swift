@@ -25,11 +25,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print ("didFinishLaunchingWithOptions - background")
         }
         
+        // UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
+        // every 15 minutes
+        UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(15 * 60)
+        
+        /*
         // prompt to register for notitfications
         if(UIApplication.instancesRespondToSelector(Selector("registerUserNotificationSettings:"))) {
             UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings (forTypes: UIUserNotificationType.None, categories: nil))
         }
-        
         
         UIApplication.sharedApplication().cancelAllLocalNotifications()
         
@@ -72,12 +76,55 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let notifications = UIApplication.sharedApplication().scheduledLocalNotifications!
         print ("\(notifications.count) notifications registered")
-        
+
+        */
 
         UIDevice.currentDevice().batteryMonitoringEnabled = true
 
         return true
     }
+    
+    // Support for background fetch
+    func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+        print ("performFetchWithCompletionHandler")
+        
+        let formatter =  NSNumberFormatter()
+        formatter.numberStyle = .PercentStyle
+        
+        let batteryLevel = formatter.stringFromNumber(UIDevice.currentDevice().batteryLevel)
+        var chargeStatus = ""
+        
+        switch UIDevice.currentDevice().batteryState {
+        case UIDeviceBatteryState.Unknown:
+            chargeStatus = "Unknown"
+        case UIDeviceBatteryState.Unplugged:
+            chargeStatus = "Unplugged"
+        case UIDeviceBatteryState.Charging:
+            chargeStatus = "Charging"
+        case UIDeviceBatteryState.Full:
+            chargeStatus = "Full"
+        }
+        
+        print(chargeStatus + " " + batteryLevel!)
+        
+        let request = NSMutableURLRequest(URL: NSURL(string: "https://www.trease.eu/ibeacon/battery/")!)
+        request.HTTPMethod = "POST"
+        var bodyData = "&device=\(UIDevice.currentDevice().name)"
+        bodyData += "&batterystate=" + chargeStatus
+        bodyData += "&reason=background"
+        bodyData += "&batterylevel=\(UIDevice.currentDevice().batteryLevel)"
+        request.HTTPBody = bodyData.dataUsingEncoding(NSUTF8StringEncoding)
+        
+        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
+            data, response, error in
+            let x = response as? NSHTTPURLResponse
+            print ("status code \(x?.statusCode)")
+        }
+        task.resume()
+        
+        completionHandler(.NewData)
+    }
+    
     
     
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
@@ -106,6 +153,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         request.HTTPMethod = "POST"
         var bodyData = "&device=\(UIDevice.currentDevice().name)"
         bodyData += "&batterystate=" + chargeStatus
+        bodyData += "&reason=notification" 
         bodyData += "&batterylevel=\(UIDevice.currentDevice().batteryLevel)"
         request.HTTPBody = bodyData.dataUsingEncoding(NSUTF8StringEncoding)
         
