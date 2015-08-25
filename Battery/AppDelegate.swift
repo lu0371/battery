@@ -8,12 +8,56 @@
 
 import UIKit
 
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
 
+    
+    func getIFAddresses() -> [String] {
+        var addresses = [String]()
+        
+        // Get list of all interfaces on the local machine:
+        var ifaddr : UnsafeMutablePointer<ifaddrs> = nil
+        if getifaddrs(&ifaddr) == 0 {
+            
+            // For each interface ...
+            for (var ptr = ifaddr; ptr != nil; ptr = ptr.memory.ifa_next) {
+                let flags = Int32(ptr.memory.ifa_flags)
+                var addr = ptr.memory.ifa_addr.memory
+                // var up = ptr.memory.ifa_data.
+                
+                // Check for running IPv4, IPv6 interfaces. Skip the loopback interface.
+                if (flags & (IFF_UP|IFF_RUNNING|IFF_LOOPBACK)) == (IFF_UP|IFF_RUNNING) {
+                    if addr.sa_family == UInt8(AF_INET) || addr.sa_family == UInt8(AF_INET6) {
+                        
+                        // Convert interface address to a human readable string:
+                        var hostname = [CChar](count: Int(NI_MAXHOST), repeatedValue: 0)
+                        if (getnameinfo(&addr, socklen_t(addr.sa_len), &hostname, socklen_t(hostname.count),
+                            nil, socklen_t(0), NI_NUMERICHOST) == 0) {
+                                if let address = String.fromCString(hostname) {
+                                    addresses.append(address);
+                                }
+                        }
+                    }
+                }
+            }
+            freeifaddrs(ifaddr)
+        }
+        
+        return addresses
+    }
+    
+    func networkUsage () {
+        print ("networkUsage")
+        
+        print (getIFAddresses());
+    }
+    
+    
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         switch (application.applicationState) {
@@ -29,57 +73,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // every 15 minutes
         UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(15 * 60)
         
-        /*
-        // prompt to register for notitfications
-        if(UIApplication.instancesRespondToSelector(Selector("registerUserNotificationSettings:"))) {
-            UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings (forTypes: UIUserNotificationType.None, categories: nil))
-        }
-        
-        UIApplication.sharedApplication().cancelAllLocalNotifications()
-        
-        // setup reoccuring local notification
-        let localNotification1 = UILocalNotification()
-        localNotification1.timeZone = NSTimeZone.defaultTimeZone()
-        localNotification1.repeatInterval = NSCalendarUnit.Hour
-        localNotification1.hasAction = false
-        localNotification1.fireDate = NSDate(timeIntervalSinceNow: 15 * 60)
-        localNotification1.alertTitle = "1"
-        localNotification1.alertBody = "1"
-        UIApplication.sharedApplication().scheduleLocalNotification(localNotification1)
-
-        let localNotification2 = UILocalNotification()
-        localNotification2.timeZone = NSTimeZone.defaultTimeZone()
-        localNotification2.repeatInterval = NSCalendarUnit.Hour
-        localNotification2.hasAction = false
-        localNotification2.fireDate = NSDate(timeIntervalSinceNow: 30 * 60)
-        localNotification2.alertTitle = "2"
-        localNotification1.alertBody = "2"
-        UIApplication.sharedApplication().scheduleLocalNotification(localNotification2)
-        
-        let localNotification3 = UILocalNotification()
-        localNotification3.timeZone = NSTimeZone.defaultTimeZone()
-        localNotification3.repeatInterval = NSCalendarUnit.Hour
-        localNotification3.hasAction = false
-        localNotification3.fireDate = NSDate(timeIntervalSinceNow: 45 * 60)
-        localNotification3.alertTitle = "3"
-        localNotification1.alertBody = "3"
-        UIApplication.sharedApplication().scheduleLocalNotification(localNotification3)
-        
-        let localNotification4 = UILocalNotification()
-        localNotification4.timeZone = NSTimeZone.defaultTimeZone()
-        localNotification4.repeatInterval = NSCalendarUnit.Hour
-        localNotification4.hasAction = false
-        localNotification4.fireDate = NSDate(timeIntervalSinceNow: 60 * 60)
-        localNotification4.alertTitle = "4"
-        localNotification1.alertBody = "4"
-        UIApplication.sharedApplication().scheduleLocalNotification(localNotification4)
-
-        let notifications = UIApplication.sharedApplication().scheduledLocalNotifications!
-        print ("\(notifications.count) notifications registered")
-
-        */
-
         UIDevice.currentDevice().batteryMonitoringEnabled = true
+        
+        networkUsage()
 
         return true
     }
@@ -126,44 +122,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     
-    
-    func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
-        print ("didRecieveLocalNotification " + notification.alertTitle!)
-        
-        let formatter =  NSNumberFormatter()
-        formatter.numberStyle = .PercentStyle
-        
-        let batteryLevel = formatter.stringFromNumber(UIDevice.currentDevice().batteryLevel)
-        var chargeStatus = ""
-        
-        switch UIDevice.currentDevice().batteryState {
-        case UIDeviceBatteryState.Unknown:
-            chargeStatus = "Unknown"
-        case UIDeviceBatteryState.Unplugged:
-            chargeStatus = "Unplugged"
-        case UIDeviceBatteryState.Charging:
-            chargeStatus = "Charging"
-        case UIDeviceBatteryState.Full:
-            chargeStatus = "Full"
-        }
-        
-        print(chargeStatus + " " + batteryLevel!)
-        
-        let request = NSMutableURLRequest(URL: NSURL(string: "https://www.trease.eu/ibeacon/battery/")!)
-        request.HTTPMethod = "POST"
-        var bodyData = "&device=\(UIDevice.currentDevice().name)"
-        bodyData += "&batterystate=" + chargeStatus
-        bodyData += "&reason=notification" 
-        bodyData += "&batterylevel=\(UIDevice.currentDevice().batteryLevel)"
-        request.HTTPBody = bodyData.dataUsingEncoding(NSUTF8StringEncoding)
-        
-        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
-            data, response, error in
-            let x = response as? NSHTTPURLResponse
-            print ("status code \(x?.statusCode)")
-        }
-        task.resume()
-    }
+
 
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
