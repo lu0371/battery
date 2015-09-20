@@ -11,9 +11,9 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    @IBOutlet var batteryLevel: UILabel!
-    @IBOutlet var chargeStatus: UILabel!
-    @IBOutlet var powerState: UILabel!
+    @IBOutlet var batteryLevelButton: UIButton!
+    @IBOutlet var chargeStatusLabel: UILabel!
+    @IBOutlet var powerStateLabel: UILabel!
     
     // var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
     
@@ -48,35 +48,33 @@ class ViewController: UIViewController {
         let formatter =  NSNumberFormatter()
         formatter.numberStyle = .PercentStyle
         
-        batteryLevel.text = formatter.stringFromNumber(UIDevice.currentDevice().batteryLevel)
+        batteryLevelButton.setTitle(formatter.stringFromNumber(UIDevice.currentDevice().batteryLevel), forState: .Normal)
         
         switch UIDevice.currentDevice().batteryState {
         case UIDeviceBatteryState.Unknown:
-            chargeStatus.text = "Unknown"
+            chargeStatusLabel.text = "Unknown"
         case UIDeviceBatteryState.Unplugged:
-            chargeStatus.text = "Unplugged"
+            chargeStatusLabel.text = "Unplugged"
         case UIDeviceBatteryState.Charging:
-            chargeStatus.text = "Charging"
+            chargeStatusLabel.text = "Charging"
         case UIDeviceBatteryState.Full:
-            chargeStatus.text = "Full"
+            chargeStatusLabel.text = "Full"
         }
         
         if NSProcessInfo.processInfo().lowPowerModeEnabled {
             // Low Power Mode is enabled. Start reducing activity to conserve energy.
-            powerState.text = "Low power mode enabled"
-            powerState.hidden = false
+            powerStateLabel.text = "Low power mode enabled"
+            powerStateLabel.hidden = false
         } else {
             // Low Power Mode is enabled. Start reducing activity to conserve energy.
-            powerState.text = "Low power mode disabled"
-            powerState.hidden = true
+            powerStateLabel.text = "Low power mode disabled"
+            powerStateLabel.hidden = true
         }
         
-        print(chargeStatus.text! + " " + batteryLevel.text!)
-
         let request = NSMutableURLRequest(URL: NSURL(string: "https://www.trease.eu/ibeacon/battery/")!)
         request.HTTPMethod = "POST"
         var bodyData = "&device=\(UIDevice.currentDevice().name)"
-        bodyData += "&batterystate=" + chargeStatus.text!
+        bodyData += "&batterystate=" + chargeStatusLabel.text!
         bodyData += "&reason=changed" 
         bodyData += "&batterylevel=\(UIDevice.currentDevice().batteryLevel)"
         request.HTTPBody = bodyData.dataUsingEncoding(NSUTF8StringEncoding)
@@ -89,9 +87,14 @@ class ViewController: UIViewController {
         task.resume()
     }
     
-    
+    @IBAction func refreshButton(sender: AnyObject) {
+        print("refresh button pressed")
+        batteryLevelChanged()
+    }
+
 
     override func didReceiveMemoryWarning() {
+        print("didRecieveMemoryWarning")
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
