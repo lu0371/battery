@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     @IBOutlet var batteryLevelButton: UIButton!
     @IBOutlet var chargeStatusLabel: UILabel!
     @IBOutlet var powerStateLabel: UILabel!
+    @IBOutlet var networkStatusLabel: UILabel!
     
     // var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
     
@@ -44,10 +45,12 @@ class ViewController: UIViewController {
     
     func batteryLevelChanged() {
         print ("batteryLevelChanged")
+        
+        networkStatusLabel.text = "updating"
+        self.networkStatusLabel.hidden = false
     
         let formatter =  NSNumberFormatter()
         formatter.numberStyle = .PercentStyle
-        
         batteryLevelButton.setTitle(formatter.stringFromNumber(UIDevice.currentDevice().batteryLevel), forState: .Normal)
         
         switch UIDevice.currentDevice().batteryState {
@@ -81,8 +84,16 @@ class ViewController: UIViewController {
         
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
             data, response, error in
-            let x = response as? NSHTTPURLResponse
-            print ("status code \(x?.statusCode)")
+            if let httpResponse = response as? NSHTTPURLResponse {
+                print("http response \(httpResponse.statusCode)")
+                self.networkStatusLabel.hidden = false
+                self.networkStatusLabel.text = "\(httpResponse.statusCode)"
+                if httpResponse.statusCode == 200 {
+                        self.networkStatusLabel.hidden = true
+                } else {
+                        self.networkStatusLabel.hidden = false
+                }
+            }
         }
         task.resume()
     }
