@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     @IBOutlet var powerStateLabel: UILabel!
     @IBOutlet var networkStatusLabel: UILabel!
     
-    // var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
+    var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
     
     
     override func viewDidLoad() {
@@ -34,10 +34,11 @@ class ViewController: UIViewController {
 
         
         // run a background task every fifteen minutes to call batteryLevelChanged
-        // back// groundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({
-        //     UIApplication.sharedApplication().endBackgroundTask(self.backgroundTaskIdentifier!)
+        //
+        // backgroundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({
+             // UIApplication.sharedApplication().endBackgroundTask(self.backgroundTaskIdentifier!)
         // })
-        // _ = NSTimer.scheduledTimerWithTimeInterval(15 * 60.09, target: self, selector: "batteryLevelChanged", userInfo: nil, repeats: true)
+        _ = NSTimer.scheduledTimerWithTimeInterval(15 * 60.09, target: self, selector: "batteryLevelChanged", userInfo: nil, repeats: true)
         
         // call batteryLevelChanged once per second when in foreground
         // _ = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("batteryLevelChanged"), userInfo: nil, repeats: true)
