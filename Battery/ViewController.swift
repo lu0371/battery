@@ -85,6 +85,7 @@ class ViewController: UIViewController {
         
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
             data, response, error in
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
             if let httpResponse = response as? NSHTTPURLResponse {
                 print("http response \(httpResponse.statusCode)")
                 self.networkStatusLabel.hidden = false
@@ -95,6 +96,7 @@ class ViewController: UIViewController {
                         self.networkStatusLabel.hidden = false
                 }
             }
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         }
         task.resume()
     }
