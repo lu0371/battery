@@ -67,6 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
             data, response, error in
+            
             let x = response as? NSHTTPURLResponse
             print ("status code \(x?.statusCode)")
         }

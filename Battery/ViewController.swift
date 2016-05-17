@@ -95,6 +95,15 @@ class ViewController: UIViewController {
                 } else {
                         self.networkStatusLabel.hidden = false
                 }
+                
+                if let data = data,
+                    jsonString = NSString(data: data, encoding: NSUTF8StringEncoding)
+                    where error == nil {
+                    print(jsonString)
+                } else {
+                    print("error=\(error!.localizedDescription)")
+                }
+
             }
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         }
