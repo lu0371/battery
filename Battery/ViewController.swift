@@ -28,9 +28,9 @@ class ViewController: UIViewController {
         batteryLevelChanged()
         
         // set to update labels on battery status change notifications (only works in foreground)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "batteryLevelChanged", name: UIDeviceBatteryLevelDidChangeNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "batteryLevelChanged", name: UIDeviceBatteryStateDidChangeNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "batteryLevelChanged", name: NSProcessInfoPowerStateDidChangeNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.batteryLevelChanged), name: UIDeviceBatteryLevelDidChangeNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.batteryLevelChanged), name: UIDeviceBatteryStateDidChangeNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.batteryLevelChanged), name: NSProcessInfoPowerStateDidChangeNotification, object: nil)
 
         
         // run a background task every fifteen minutes to call batteryLevelChanged
@@ -38,7 +38,7 @@ class ViewController: UIViewController {
         // backgroundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({
              // UIApplication.sharedApplication().endBackgroundTask(self.backgroundTaskIdentifier!)
         // })
-        _ = NSTimer.scheduledTimerWithTimeInterval(15 * 60.09, target: self, selector: "batteryLevelChanged", userInfo: nil, repeats: true)
+        _ = NSTimer.scheduledTimerWithTimeInterval(15 * 60.09, target: self, selector: #selector(ViewController.batteryLevelChanged), userInfo: nil, repeats: true)
         
         // call batteryLevelChanged once per second when in foreground
         // _ = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("batteryLevelChanged"), userInfo: nil, repeats: true)
