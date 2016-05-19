@@ -14,6 +14,7 @@ import Foundation
 var devices = [DeviceData]()
 
 class DeviceData {
+    var uuid: String = ""
     var deviceName: String = ""
     var batteryLevel: Float = 0.0
     var batteryState: String = ""

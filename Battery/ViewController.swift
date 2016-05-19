@@ -9,12 +9,13 @@
 import Foundation
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet var batteryLevelButton: UIButton!
     @IBOutlet var chargeStatusLabel: UILabel!
     @IBOutlet var powerStateLabel: UILabel!
     @IBOutlet var networkStatusLabel: UILabel!
+    @IBOutlet var tableView: UITableView!
     
     var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
     
@@ -38,11 +39,14 @@ class ViewController: UIViewController {
         // backgroundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({
              // UIApplication.sharedApplication().endBackgroundTask(self.backgroundTaskIdentifier!)
         // })
-        _ = NSTimer.scheduledTimerWithTimeInterval(15 * 60.09, target: self, selector: #selector(ViewController.batteryLevelChanged), userInfo: nil, repeats: true)
+        // _ = NSTimer.scheduledTimerWithTimeInterval(15 * 60.09, target: self, selector: #selector(ViewController.batteryLevelChanged), userInfo: nil, repeats: true)
         
         // call batteryLevelChanged once per second when in foreground
         // _ = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("batteryLevelChanged"), userInfo: nil, repeats: true)
+    
+        // self.tableView.reloadData();
     }
+
     
     func batteryLevelChanged() {
         print ("batteryLevelChanged")
@@ -54,15 +58,27 @@ class ViewController: UIViewController {
         formatter.numberStyle = .PercentStyle
         batteryLevelButton.setTitle(formatter.stringFromNumber(UIDevice.currentDevice().batteryLevel), forState: .Normal)
         
+    
+        
+    
+        chargeStatusLabel.font = UIFont (name: "FontAwesome", size: 24)
         switch UIDevice.currentDevice().batteryState {
         case UIDeviceBatteryState.Unknown:
             chargeStatusLabel.text = "Unknown"
+            chargeStatusLabel.text = "\u{f071}"
+            chargeStatusLabel.textColor = UIColor.blackColor()
         case UIDeviceBatteryState.Unplugged:
             chargeStatusLabel.text = "Unplugged"
+            chargeStatusLabel.text = "\u{f242}"
+            chargeStatusLabel.textColor = UIColor.grayColor()
         case UIDeviceBatteryState.Charging:
             chargeStatusLabel.text = "Charging"
+            chargeStatusLabel.text = "\u{f242}"
+            chargeStatusLabel.textColor = UIColor.orangeColor()
         case UIDeviceBatteryState.Full:
             chargeStatusLabel.text = "Full"
+            chargeStatusLabel.text = "\u{f240}"
+            chargeStatusLabel.textColor = UIColor.greenColor()
         }
         
         if NSProcessInfo.processInfo().lowPowerModeEnabled {
@@ -79,7 +95,8 @@ class ViewController: UIViewController {
         request.HTTPMethod = "POST"
         var bodyData = "&device=\(UIDevice.currentDevice().name)"
         bodyData += "&batterystate=" + chargeStatusLabel.text!
-        bodyData += "&reason=changed" 
+        bodyData += "&reason=changed"
+        bodyData += "&uuid=" + (UIDevice.currentDevice().identifierForVendor?.UUIDString)!
         bodyData += "&batterylevel=\(UIDevice.currentDevice().batteryLevel)"
         request.HTTPBody = bodyData.dataUsingEncoding(NSUTF8StringEncoding)
         
@@ -96,16 +113,51 @@ class ViewController: UIViewController {
                         self.networkStatusLabel.hidden = false
                 }
                 
-                if let data = data,
-                    jsonString = NSString(data: data, encoding: NSUTF8StringEncoding)
-                    where error == nil {
-                    print(jsonString)
-                } else {
-                    print("error=\(error!.localizedDescription)")
+                do {
+                    let json = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments)
+                    print ("++++")
+                    print (json.count)
+                    for jsonItem in json as! [Dictionary<String, AnyObject>] {
+                        print(".")
+                        
+                        let device = DeviceData ()
+                        
+                        device.deviceName = jsonItem["deviceName"] as! String
+                        device.batteryLevel = jsonItem["batteryLevel"] as! Float
+                        device.batteryState = jsonItem["batteryState"] as! String
+                        device.timeStamp = NSDate(timeIntervalSince1970: (jsonItem["timeStamp"] as! Double))
+                        
+                        if devices.count > 0 {
+                            var found = false
+                            for var d in devices {
+                                if d.deviceName == device.deviceName {
+                                    found = true
+                                    d = device
+                                    print ("%")
+                                }
+                            }
+                            
+                            if found == false {
+                                devices.append(device)
+                                print ("+")
+                            }
+                        } else {
+                            devices.append(device)
+                            print ("+")
+                        }
+                            
+                    }
+                    
+                } catch let error as NSError {
+                    print("JSON Serialization failed. Error: \(error)")
                 }
-
+                
+            } else {
+                print("error=\(error!.localizedDescription)")
             }
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+            print ("processing done")
+            self.tableView.reloadData()
         }
         task.resume()
     }
@@ -115,10 +167,24 @@ class ViewController: UIViewController {
         batteryLevelChanged()
     }
 
-
     override func didReceiveMemoryWarning() {
         print("didRecieveMemoryWarning")
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return devices.count
+    }
+    func numberOfSectionsInTableView(tableView:UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        print ("cellForRowAtIndexPath \(indexPath.row)")
+        let cell = tableView.dequeueReusableCellWithIdentifier("batteryCell", forIndexPath: indexPath)
+        cell.textLabel?.text = devices[indexPath.row].deviceName
+        cell.detailTextLabel?.text = "\(devices[indexPath.row].batteryLevel)"
+        return cell
+    }    
 }

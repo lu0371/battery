@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AA42B2481B3C46FE007331F1 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AA42B2471B3C46FE007331F1 /* Settings.bundle */; };
+		AA525D871CEE63D50015737B /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AAA300C51CECD7BD00E1625E /* fontawesome-webfont.ttf */; };
 		AAA300C21CECAC0800E1625E /* DeviceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA300C11CECAC0800E1625E /* DeviceData.swift */; };
 		AAB12A701B28869700957578 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB12A6F1B28869700957578 /* AppDelegate.swift */; };
 		AAB12A721B28869700957578 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB12A711B28869700957578 /* ViewController.swift */; };
@@ -36,9 +37,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		AA35EEBB1B7F554B00C5C49A /* bridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bridgingHeader.h; sourceTree = "<group>"; };
 		AA42B2471B3C46FE007331F1 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		AAA300C11CECAC0800E1625E /* DeviceData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceData.swift; sourceTree = "<group>"; };
+		AAA300C51CECD7BD00E1625E /* fontawesome-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fontawesome-webfont.ttf"; sourceTree = "<group>"; };
 		AAB12A6C1B28869600957578 /* Battery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Battery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB12A6F1B28869700957578 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AAB12A711B28869700957578 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -102,8 +103,8 @@
 		AAB12A6E1B28869600957578 /* Battery */ = {
 			isa = PBXGroup;
 			children = (
+				AAA300C51CECD7BD00E1625E /* fontawesome-webfont.ttf */,
 				AAB12A6F1B28869700957578 /* AppDelegate.swift */,
-				AA35EEBB1B7F554B00C5C49A /* bridgingHeader.h */,
 				AAB12A711B28869700957578 /* ViewController.swift */,
 				AAB12A731B28869700957578 /* Main.storyboard */,
 				AAA300C11CECAC0800E1625E /* DeviceData.swift */,
@@ -243,6 +244,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA525D871CEE63D50015737B /* fontawesome-webfont.ttf in Resources */,
 				AA42B2481B3C46FE007331F1 /* Settings.bundle in Resources */,
 				AAB12A7A1B28869700957578 /* LaunchScreen.storyboard in Resources */,
 				AAB12A771B28869700957578 /* Assets.xcassets in Resources */,

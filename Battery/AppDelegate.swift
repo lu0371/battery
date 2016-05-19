@@ -62,6 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var bodyData = "&device=\(UIDevice.currentDevice().name)"
         bodyData += "&batterystate=" + chargeStatus
         bodyData += "&reason=background"
+        bodyData += "&uuid=" + (UIDevice.currentDevice().identifierForVendor?.UUIDString)!
         bodyData += "&batterylevel=\(UIDevice.currentDevice().batteryLevel)"
         request.HTTPBody = bodyData.dataUsingEncoding(NSUTF8StringEncoding)
         
