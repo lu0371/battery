@@ -58,29 +58,44 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         formatter.numberStyle = .PercentStyle
         batteryLevelButton.setTitle(formatter.stringFromNumber(UIDevice.currentDevice().batteryLevel), forState: .Normal)
         
-    
-        
-    
         chargeStatusLabel.font = UIFont (name: "FontAwesome", size: 24)
+        
+        print (UIDevice.currentDevice().batteryLevel * 100)
+        switch (UIDevice.currentDevice().batteryLevel * 100) {
+        case 0..<5:
+            chargeStatusLabel.text = "\u{f244}"     // battery-empty
+        case 5..<35:
+            chargeStatusLabel.text = "\u{f243}"     // battery-quarter
+        case 35..<65:
+            chargeStatusLabel.text = "\u{f242}"     // battery-half
+        case 65..<95:
+            chargeStatusLabel.text = "\u{f241}"     // battery-three-quarters
+        case 95..<100:
+            chargeStatusLabel.text = "\u{f240}"     // battery-full
+        default:
+            chargeStatusLabel.text = "."
+        }
+
         switch UIDevice.currentDevice().batteryState {
         case UIDeviceBatteryState.Unknown:
-            chargeStatusLabel.text = "Unknown"
-            chargeStatusLabel.text = "\u{f071}"
+            // chargeStatusLabel.text = "Unknown"
+            // chargeStatusLabel.text = "\u{f071}"
             chargeStatusLabel.textColor = UIColor.blackColor()
         case UIDeviceBatteryState.Unplugged:
-            chargeStatusLabel.text = "Unplugged"
-            chargeStatusLabel.text = "\u{f242}"
+            // chargeStatusLabel.text = "Unplugged"
+            // chargeStatusLabel.text = "\u{f242}"
             chargeStatusLabel.textColor = UIColor.grayColor()
         case UIDeviceBatteryState.Charging:
-            chargeStatusLabel.text = "Charging"
-            chargeStatusLabel.text = "\u{f242}"
+            // chargeStatusLabel.text = "Charging"
+            // chargeStatusLabel.text = "\u{f242}"
             chargeStatusLabel.textColor = UIColor.orangeColor()
         case UIDeviceBatteryState.Full:
-            chargeStatusLabel.text = "Full"
-            chargeStatusLabel.text = "\u{f240}"
+            // chargeStatusLabel.text = "Full"
+            // chargeStatusLabel.text = "\u{f240}"
             chargeStatusLabel.textColor = UIColor.greenColor()
         }
-        
+
+        /*
         if NSProcessInfo.processInfo().lowPowerModeEnabled {
             // Low Power Mode is enabled. Start reducing activity to conserve energy.
             powerStateLabel.text = "Low power mode enabled"
@@ -89,8 +104,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             // Low Power Mode is enabled. Start reducing activity to conserve energy.
             powerStateLabel.text = "Low power mode disabled"
             powerStateLabel.hidden = true
-        }
-        
+        }*/
+
         let request = NSMutableURLRequest(URL: NSURL(string: "https://www.trease.eu/ibeacon/battery/")!)
         request.HTTPMethod = "POST"
         var bodyData = "&device=\(UIDevice.currentDevice().name)"
@@ -132,11 +147,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                             for var d in devices {
                                 if d.deviceName == device.deviceName {
                                     found = true
-                                    d = device
+                                    d.deviceName = device.deviceName
+                                    d.batteryLevel = device.batteryLevel
+                                    d.batteryState = device.batteryState
+                                    d.timeStamp = device.timeStamp
                                     print ("%")
                                 }
                             }
-                            
                             if found == false {
                                 devices.append(device)
                                 print ("+")
@@ -184,7 +201,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         print ("cellForRowAtIndexPath \(indexPath.row)")
         let cell = tableView.dequeueReusableCellWithIdentifier("batteryCell", forIndexPath: indexPath)
         cell.textLabel?.text = devices[indexPath.row].deviceName
-        cell.detailTextLabel?.text = "\(devices[indexPath.row].batteryLevel)"
+        
+        let formatter =  NSNumberFormatter()
+        formatter.numberStyle = .PercentStyle
+        cell.detailTextLabel?.text = formatter.stringFromNumber(devices[indexPath.row].batteryLevel)
+
         return cell
     }    
 }
