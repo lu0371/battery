@@ -67,7 +67,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             chargeStatusLabel.text = "\u{f242}"     // battery-half
         case 65..<95:
             chargeStatusLabel.text = "\u{f241}"     // battery-three-quarters
-        case 95..<100:
+        case 95..<101:
             chargeStatusLabel.text = "\u{f240}"     // battery-full
         default:
             chargeStatusLabel.text = "."
