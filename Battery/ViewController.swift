@@ -13,7 +13,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBOutlet var batteryLevelButton: UIButton!
     @IBOutlet var chargeStatusLabel: UILabel!
-    @IBOutlet var powerStateLabel: UILabel!
     @IBOutlet var tableView: UITableView!
     
     var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
