@@ -14,7 +14,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet var batteryLevelButton: UIButton!
     @IBOutlet var chargeStatusLabel: UILabel!
     @IBOutlet var powerStateLabel: UILabel!
-    @IBOutlet var networkStatusLabel: UILabel!
     @IBOutlet var tableView: UITableView!
     
     var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
@@ -51,16 +50,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func batteryLevelChanged() {
         print ("batteryLevelChanged")
         
-        networkStatusLabel.text = "updating"
-        self.networkStatusLabel.hidden = false
-    
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+
         let formatter =  NSNumberFormatter()
         formatter.numberStyle = .PercentStyle
         batteryLevelButton.setTitle(formatter.stringFromNumber(UIDevice.currentDevice().batteryLevel), forState: .Normal)
         
         chargeStatusLabel.font = UIFont (name: "FontAwesome", size: 24)
-        
-        print (UIDevice.currentDevice().batteryLevel * 100)
+
         switch (UIDevice.currentDevice().batteryLevel * 100) {
         case 0..<5:
             chargeStatusLabel.text = "\u{f244}"     // battery-empty
@@ -120,13 +117,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
             if let httpResponse = response as? NSHTTPURLResponse {
                 print("http response \(httpResponse.statusCode)")
-                self.networkStatusLabel.hidden = false
-                self.networkStatusLabel.text = "\(httpResponse.statusCode)"
-                if httpResponse.statusCode == 200 {
-                        self.networkStatusLabel.hidden = true
-                } else {
-                        self.networkStatusLabel.hidden = false
-                }
                 
                 do {
                     let json = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments)
@@ -140,6 +130,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                         device.deviceName = jsonItem["deviceName"] as! String
                         device.batteryLevel = jsonItem["batteryLevel"] as! Float
                         device.batteryState = jsonItem["batteryState"] as! String
+                        device.uuid = jsonItem["uuid"] as! String
                         device.timeStamp = NSDate(timeIntervalSince1970: (jsonItem["timeStamp"] as! Double))
                         
                         if devices.count > 0 {
@@ -150,6 +141,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                                     d.deviceName = device.deviceName
                                     d.batteryLevel = device.batteryLevel
                                     d.batteryState = device.batteryState
+                                    d.uuid = device.uuid
                                     d.timeStamp = device.timeStamp
                                     print ("%")
                                 }
@@ -172,7 +164,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             } else {
                 print("error=\(error!.localizedDescription)")
             }
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             print ("processing done")
             self.tableView.reloadData()
         }
