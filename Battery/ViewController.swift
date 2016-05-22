@@ -23,6 +23,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Do any additional setup after loading the view, typically from a nib.
         print("viewDidLoad")
         
+        tableView.registerNib(UINib(nibName: "customTableViewCell", bundle: nil), forCellReuseIdentifier: "batterCell")
+        
         // set initial value
         batteryLevelChanged()
         
@@ -157,10 +159,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         print ("cellForRowAtIndexPath \(indexPath.row)")
-        let cell = tableView.dequeueReusableCellWithIdentifier("batteryCell", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("batteryCell", forIndexPath: indexPath) as! customTableViewCell
         
-        cell.textLabel?.text = devices[indexPath.row].deviceName
-        cell.detailTextLabel?.text = devices[indexPath.row].formattedBatteryLevel
+        cell.deviceName?.text = devices[indexPath.row].deviceName
+        cell.batteryLevel?.text = devices[indexPath.row].formattedBatteryLevel
+        cell.status?.text = devices[indexPath.row].statusSymbol
+        cell.status?.textColor = devices[indexPath.row].statusColor
 
         return cell
     }    

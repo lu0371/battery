@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		AA42B2481B3C46FE007331F1 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AA42B2471B3C46FE007331F1 /* Settings.bundle */; };
 		AA525D871CEE63D50015737B /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AAA300C51CECD7BD00E1625E /* fontawesome-webfont.ttf */; };
+		AA9C85B61CF22B2800510457 /* customTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9C85B51CF22B2800510457 /* customTableViewCell.swift */; };
 		AAA300C21CECAC0800E1625E /* DeviceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA300C11CECAC0800E1625E /* DeviceData.swift */; };
 		AAB12A701B28869700957578 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB12A6F1B28869700957578 /* AppDelegate.swift */; };
 		AAB12A721B28869700957578 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB12A711B28869700957578 /* ViewController.swift */; };
@@ -38,6 +39,7 @@
 
 /* Begin PBXFileReference section */
 		AA42B2471B3C46FE007331F1 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		AA9C85B51CF22B2800510457 /* customTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = customTableViewCell.swift; sourceTree = "<group>"; };
 		AAA300C11CECAC0800E1625E /* DeviceData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceData.swift; sourceTree = "<group>"; };
 		AAA300C51CECD7BD00E1625E /* fontawesome-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fontawesome-webfont.ttf"; sourceTree = "<group>"; };
 		AAB12A6C1B28869600957578 /* Battery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Battery.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -103,6 +105,7 @@
 		AAB12A6E1B28869600957578 /* Battery */ = {
 			isa = PBXGroup;
 			children = (
+				AA9C85B51CF22B2800510457 /* customTableViewCell.swift */,
 				AAA300C51CECD7BD00E1625E /* fontawesome-webfont.ttf */,
 				AAB12A6F1B28869700957578 /* AppDelegate.swift */,
 				AAB12A711B28869700957578 /* ViewController.swift */,
@@ -291,6 +294,7 @@
 			files = (
 				AAB12A721B28869700957578 /* ViewController.swift in Sources */,
 				AAB12A701B28869700957578 /* AppDelegate.swift in Sources */,
+				AA9C85B61CF22B2800510457 /* customTableViewCell.swift in Sources */,
 				AAA300C21CECAC0800E1625E /* DeviceData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
