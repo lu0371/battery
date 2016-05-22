@@ -32,7 +32,7 @@ class DeviceData {
                 return "\u{f242}"     // battery-half
             case 65..<95:
                 return "\u{f241}"     // battery-three-quarters
-            case 95..<101:
+            case 95...100:
                 return "\u{f240}"     // battery-full
             default:
                 return "."
