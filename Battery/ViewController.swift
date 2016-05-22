@@ -51,10 +51,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
 
-        let formatter =  NSNumberFormatter()
-        formatter.numberStyle = .PercentStyle
-        batteryLevelButton.setTitle(formatter.stringFromNumber(UIDevice.currentDevice().batteryLevel), forState: .Normal)
-
         let s = DeviceData ()
         s.batteryLevel = UIDevice.currentDevice().batteryLevel
         
@@ -69,9 +65,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             s.batteryState = "Full"
         }
         
+        batteryLevelButton.setTitle(s.formattedBatteryLevel, forState: .Normal)
         chargeStatusLabel.text = s.statusSymbol
         chargeStatusLabel.textColor = s.statusColor
-        // chargeStatusLabel.font = UIFont (name: "FontAwesome", size: 24)
         
         let request = NSMutableURLRequest(URL: NSURL(string: "https://www.trease.eu/ibeacon/battery/")!)
         request.HTTPMethod = "POST"
@@ -164,9 +160,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let cell = tableView.dequeueReusableCellWithIdentifier("batteryCell", forIndexPath: indexPath)
         cell.textLabel?.text = devices[indexPath.row].deviceName
         
-        let formatter =  NSNumberFormatter()
-        formatter.numberStyle = .PercentStyle
-        cell.detailTextLabel?.text = formatter.stringFromNumber(devices[indexPath.row].batteryLevel)
+        cell.detailTextLabel?.text = devices[indexPath.row].formattedBatteryLevel
 
         return cell
     }    

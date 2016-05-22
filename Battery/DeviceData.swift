@@ -53,4 +53,9 @@ class DeviceData {
             }
         }
     }
+    var formattedBatteryLevel: String {
+        let formatter =  NSNumberFormatter()
+        formatter.numberStyle = .PercentStyle
+        return formatter.stringFromNumber(batteryLevel)!
+    }
 }
