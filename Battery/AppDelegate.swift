@@ -59,10 +59,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let request = NSMutableURLRequest(URL: NSURL(string: "https://www.trease.eu/ibeacon/battery/")!)
         request.HTTPMethod = "POST"
-        var bodyData = "&device=\(UIDevice.currentDevice().name)"
+        var bodyData = "&device=" + UIDevice.currentDevice().name
         bodyData += "&batterystate=" + chargeStatus
         bodyData += "&reason=background"
-        bodyData += "&uuid=" + UIDevice.currentDevice().name
+        bodyData += "&uuid=" + UIDevice.currentDevice().identifierForVendor!.UUIDString
         bodyData += "&batterylevel=\(UIDevice.currentDevice().batteryLevel)"
         request.HTTPBody = bodyData.dataUsingEncoding(NSUTF8StringEncoding)
         

@@ -122,9 +122,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                             devices.append(device)
                             print ("+")
                         }
-                            
                     }
-                    
+                
                 } catch let error as NSError {
                     print("JSON Serialization failed. Error: \(error)")
                 }
