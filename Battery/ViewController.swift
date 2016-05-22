@@ -54,54 +54,25 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let formatter =  NSNumberFormatter()
         formatter.numberStyle = .PercentStyle
         batteryLevelButton.setTitle(formatter.stringFromNumber(UIDevice.currentDevice().batteryLevel), forState: .Normal)
+
+        let s = DeviceData ()
+        s.batteryLevel = UIDevice.currentDevice().batteryLevel
         
-        chargeStatusLabel.font = UIFont (name: "FontAwesome", size: 24)
-
-        switch (UIDevice.currentDevice().batteryLevel * 100) {
-        case 0..<5:
-            chargeStatusLabel.text = "\u{f244}"     // battery-empty
-        case 5..<35:
-            chargeStatusLabel.text = "\u{f243}"     // battery-quarter
-        case 35..<65:
-            chargeStatusLabel.text = "\u{f242}"     // battery-half
-        case 65..<95:
-            chargeStatusLabel.text = "\u{f241}"     // battery-three-quarters
-        case 95..<101:
-            chargeStatusLabel.text = "\u{f240}"     // battery-full
-        default:
-            chargeStatusLabel.text = "."
-        }
-
         switch UIDevice.currentDevice().batteryState {
         case UIDeviceBatteryState.Unknown:
-            // chargeStatusLabel.text = "Unknown"
-            // chargeStatusLabel.text = "\u{f071}"
-            chargeStatusLabel.textColor = UIColor.blackColor()
+            s.batteryState = "Unknown"
         case UIDeviceBatteryState.Unplugged:
-            // chargeStatusLabel.text = "Unplugged"
-            // chargeStatusLabel.text = "\u{f242}"
-            chargeStatusLabel.textColor = UIColor.grayColor()
+            s.batteryState = "Unplugged"
         case UIDeviceBatteryState.Charging:
-            // chargeStatusLabel.text = "Charging"
-            // chargeStatusLabel.text = "\u{f242}"
-            chargeStatusLabel.textColor = UIColor.orangeColor()
+            s.batteryState = "Charging"
         case UIDeviceBatteryState.Full:
-            // chargeStatusLabel.text = "Full"
-            // chargeStatusLabel.text = "\u{f240}"
-            chargeStatusLabel.textColor = UIColor.greenColor()
+            s.batteryState = "Full"
         }
-
-        /*
-        if NSProcessInfo.processInfo().lowPowerModeEnabled {
-            // Low Power Mode is enabled. Start reducing activity to conserve energy.
-            powerStateLabel.text = "Low power mode enabled"
-            powerStateLabel.hidden = false
-        } else {
-            // Low Power Mode is enabled. Start reducing activity to conserve energy.
-            powerStateLabel.text = "Low power mode disabled"
-            powerStateLabel.hidden = true
-        }*/
-
+        
+        chargeStatusLabel.text = s.statusSymbol
+        chargeStatusLabel.textColor = s.statusColor
+        chargeStatusLabel.font = UIFont (name: "FontAwesome", size: 24)
+        
         let request = NSMutableURLRequest(URL: NSURL(string: "https://www.trease.eu/ibeacon/battery/")!)
         request.HTTPMethod = "POST"
         var bodyData = "&device=\(UIDevice.currentDevice().name)"

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 
 
@@ -19,4 +20,37 @@ class DeviceData {
     var batteryLevel: Float = 0.0
     var batteryState: String = ""
     var timeStamp = NSDate()
+    
+    var statusSymbol: String {
+        get {
+            switch (batteryLevel * 100) {
+            case 0..<5:
+                return "\u{f244}"     // battery-empty
+            case 5..<35:
+                return "\u{f243}"     // battery-quarter
+            case 35..<65:
+                return "\u{f242}"     // battery-half
+            case 65..<95:
+                return "\u{f241}"     // battery-three-quarters
+            case 95..<101:
+                return "\u{f240}"     // battery-full
+            default:
+                return "."
+            }
+        }
+    }
+    var statusColor: UIColor {
+        get {
+            switch UIDevice.currentDevice().batteryState {
+            case UIDeviceBatteryState.Unknown:
+                return UIColor.blackColor()
+            case UIDeviceBatteryState.Unplugged:
+                return  UIColor.grayColor()
+            case UIDeviceBatteryState.Charging:
+                return UIColor.orangeColor()
+            case UIDeviceBatteryState.Full:
+                return UIColor.greenColor()
+            }
+        }
+    }
 }
