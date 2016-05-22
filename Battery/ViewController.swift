@@ -158,8 +158,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         print ("cellForRowAtIndexPath \(indexPath.row)")
         let cell = tableView.dequeueReusableCellWithIdentifier("batteryCell", forIndexPath: indexPath)
-        cell.textLabel?.text = devices[indexPath.row].deviceName
         
+        cell.textLabel?.text = devices[indexPath.row].deviceName
         cell.detailTextLabel?.text = devices[indexPath.row].formattedBatteryLevel
 
         return cell
