@@ -71,7 +71,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         chargeStatusLabel.text = s.statusSymbol
         chargeStatusLabel.textColor = s.statusColor
-        chargeStatusLabel.font = UIFont (name: "FontAwesome", size: 24)
+        // chargeStatusLabel.font = UIFont (name: "FontAwesome", size: 24)
         
         let request = NSMutableURLRequest(URL: NSURL(string: "https://www.trease.eu/ibeacon/battery/")!)
         request.HTTPMethod = "POST"
