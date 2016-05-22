@@ -34,6 +34,8 @@ class DeviceData {
                 return "\u{f241}"     // battery-three-quarters
             case 95...100:
                 return "\u{f240}"     // battery-full
+            case -100:
+                return "\u{f0e7}"     // in simualtor
             default:
                 return "."
             }
