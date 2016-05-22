@@ -102,7 +102,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                         if devices.count > 0 {
                             var found = false
                             for var d in devices {
-                                if d.deviceName == device.deviceName {
+                                if d.uuid == device.uuid {
                                     found = true
                                     d.deviceName = device.deviceName
                                     d.batteryLevel = device.batteryLevel
