@@ -73,10 +73,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         let request = NSMutableURLRequest(URL: NSURL(string: "https://www.trease.eu/ibeacon/battery/")!)
         request.HTTPMethod = "POST"
-        var bodyData = "&device=\(UIDevice.currentDevice().name)"
+        var bodyData = "&device=" + UIDevice.currentDevice().name
         bodyData += "&batterystate=" + chargeStatusLabel.text!
         bodyData += "&reason=changed"
-        bodyData += "&uuid=" + (UIDevice.currentDevice().identifierForVendor?.UUIDString)!
+        bodyData += "&uuid=" + UIDevice.currentDevice().identifierForVendor!.UUIDString
         bodyData += "&batterylevel=\(UIDevice.currentDevice().batteryLevel)"
         request.HTTPBody = bodyData.dataUsingEncoding(NSUTF8StringEncoding)
         
