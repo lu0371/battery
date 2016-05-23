@@ -23,7 +23,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Do any additional setup after loading the view, typically from a nib.
         print("viewDidLoad")
         
-        tableView.registerNib(UINib(nibName: "customTableViewCell", bundle: nil), forCellReuseIdentifier: "batterCell")
+        tableView.registerNib(UINib(nibName: "customTableViewCell", bundle: nil), forCellReuseIdentifier: "batteryCell")
         
         // set initial value
         batteryLevelChanged()
