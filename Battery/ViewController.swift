@@ -74,7 +74,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let request = NSMutableURLRequest(URL: NSURL(string: "https://www.trease.eu/ibeacon/battery/")!)
         request.HTTPMethod = "POST"
         var bodyData = "&device=" + UIDevice.currentDevice().name
-        bodyData += "&batterystate=" + chargeStatusLabel.text!
+        bodyData += "&batterystate=" + s.batteryState
         bodyData += "&reason=changed"
         bodyData += "&uuid=" + UIDevice.currentDevice().identifierForVendor!.UUIDString
         bodyData += "&batterylevel=\(UIDevice.currentDevice().batteryLevel)"
@@ -160,7 +160,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         print ("cellForRowAtIndexPath \(indexPath.row)")
         let cell = tableView.dequeueReusableCellWithIdentifier("batteryCell", forIndexPath: indexPath) as! customTableViewCell
         
-        cell.deviceName?.text = devices[indexPath.row].deviceName
+        cell.deviceName?.text = devices[indexPath.row].deviceName + " " + devices[indexPath.row].batteryState
         cell.batteryLevel?.text = devices[indexPath.row].formattedBatteryLevel
         cell.status?.text = devices[indexPath.row].statusSymbol
         cell.status?.textColor = devices[indexPath.row].statusColor

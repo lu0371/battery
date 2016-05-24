@@ -43,15 +43,17 @@ class DeviceData {
     }
     var statusColor: UIColor {
         get {
-            switch UIDevice.currentDevice().batteryState {
-            case UIDeviceBatteryState.Unknown:
+            switch batteryState {
+            case "Unknown":
                 return UIColor.blackColor()
-            case UIDeviceBatteryState.Unplugged:
+            case "Unplugged":
                 return  UIColor.grayColor()
-            case UIDeviceBatteryState.Charging:
+            case "Charging":
                 return UIColor.orangeColor()
-            case UIDeviceBatteryState.Full:
+            case "Full":
                 return UIColor.greenColor()
+            default:
+                return UIColor.blueColor()
             }
         }
     }
