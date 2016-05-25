@@ -23,6 +23,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Do any additional setup after loading the view, typically from a nib.
         print("viewDidLoad")
         
+        self.tableView.reloadData();
+        
         // tableView.registerNib(UINib(nibName: "customTableViewCell", bundle: nil), forCellReuseIdentifier: "batteryCell")
         
         // set initial value
@@ -132,7 +134,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 print("error=\(error!.localizedDescription)")
             }
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-            print ("processing done")
+            print ("JSON processing done")
             self.tableView.reloadData()
         }
         task.resume()
