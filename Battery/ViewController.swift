@@ -22,11 +22,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         print("viewDidLoad")
-        
-        self.tableView.reloadData();
-        
-        // tableView.registerNib(UINib(nibName: "customTableViewCell", bundle: nil), forCellReuseIdentifier: "batteryCell")
-        
+    
         // set initial value
         batteryLevelChanged()
         
@@ -45,8 +41,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         // call batteryLevelChanged once per second when in foreground
         // _ = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("batteryLevelChanged"), userInfo: nil, repeats: true)
-    
-        // self.tableView.reloadData();
+
     }
 
     
@@ -135,7 +130,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             print ("JSON processing done")
-            self.tableView.reloadData()
+            self.refreshUI()
         }
         task.resume()
     }
@@ -168,5 +163,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         cell.status?.textColor = devices[indexPath.row].statusColor
 
         return cell
-    }    
+    }
+    
+    func refreshUI() {
+        dispatch_async(dispatch_get_main_queue(),{
+            self.tableView.reloadData()
+        });
+    }
+  
 }
