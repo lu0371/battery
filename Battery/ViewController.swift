@@ -11,7 +11,7 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    @IBOutlet var batteryLevelButton: UIButton!
+    @IBOutlet var batteryLevelLabel: UILabel!
     @IBOutlet var chargeStatusLabel: UILabel!
     @IBOutlet var tableView: UITableView!
     
@@ -64,7 +64,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             s.batteryState = "Full"
         }
         
-        batteryLevelButton.setTitle(s.formattedBatteryLevel, forState: .Normal)
+        batteryLevelLabel.text = s.formattedBatteryLevel
         chargeStatusLabel.text = s.statusSymbol
         chargeStatusLabel.textColor = s.statusColor
         
@@ -135,10 +135,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         task.resume()
     }
     
-    @IBAction func refreshButton(sender: AnyObject) {
-        print("refresh button pressed")
-        batteryLevelChanged()
-    }
+//    @IBAction func refreshButton(sender: AnyObject) {
+//        print("refresh button pressed")
+//        batteryLevelChanged()
+//    }
 
     override func didReceiveMemoryWarning() {
         print("didRecieveMemoryWarning")

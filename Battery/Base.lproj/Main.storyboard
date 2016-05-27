@@ -23,34 +23,30 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="nlc-LP-WSz">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Fv4-2M-yOE">
+                                <rect key="frame" x="0.0" y="50" width="288" height="440"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UyB-eg-Vuo">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="286"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="46"/>
-                                        <state key="normal" title="Battery level">
-                                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="refreshButton:" destination="BYZ-38-t0r" eventType="primaryActionTriggered" id="tyh-WX-G97"/>
-                                        </connections>
-                                    </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Charge status" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Ed-Xs-Mbl">
-                                        <rect key="frame" x="0.0" y="286" width="320" height="46"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Charge status" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Ed-Xs-Mbl">
+                                        <rect key="frame" x="0.0" y="0.0" width="288" height="46"/>
                                         <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="46"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dzi-MZ-WNQ">
-                                        <rect key="frame" x="0.0" y="332" width="320" height="128"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Battery Level Label" textAlignment="center" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eCB-ro-gzf" userLabel="Battery Level Label">
+                                        <rect key="frame" x="0.0" y="46" width="288" height="55"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="46"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dzi-MZ-WNQ">
+                                        <rect key="frame" x="0.0" y="101" width="288" height="339"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" shouldIndentWhileEditing="NO" reuseIdentifier="batteryCell" id="L7H-nZ-IMJ" customClass="customTableViewCell" customModule="Battery" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                                <rect key="frame" x="0.0" y="28" width="288" height="44"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="L7H-nZ-IMJ" id="2Xs-DL-ZF7">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="288" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="X" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="llI-si-Chn">
@@ -74,8 +70,8 @@
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstItem="llI-si-Chn" firstAttribute="leading" secondItem="2Xs-DL-ZF7" secondAttribute="leadingMargin" constant="10" id="Ogh-qC-QmY"/>
-                                                        <constraint firstItem="1ZF-uH-aLE" firstAttribute="leading" secondItem="llI-si-Chn" secondAttribute="trailing" constant="20" id="v7e-eN-bWa"/>
-                                                        <constraint firstItem="FlA-gH-snv" firstAttribute="leading" secondItem="1ZF-uH-aLE" secondAttribute="trailing" constant="20" id="yQY-fB-UTJ"/>
+                                                        <constraint firstItem="1ZF-uH-aLE" firstAttribute="leading" secondItem="llI-si-Chn" secondAttribute="trailing" constant="10" id="v7e-eN-bWa"/>
+                                                        <constraint firstItem="FlA-gH-snv" firstAttribute="leading" secondItem="1ZF-uH-aLE" secondAttribute="trailing" constant="10" id="yQY-fB-UTJ"/>
                                                         <constraint firstAttribute="trailingMargin" secondItem="FlA-gH-snv" secondAttribute="trailing" priority="250" constant="10" id="ygx-dj-OH1"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
@@ -97,40 +93,22 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="nlc-LP-WSz" secondAttribute="trailing" id="0n5-ax-YKR"/>
-                            <constraint firstItem="nlc-LP-WSz" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="ThW-40-aG0"/>
-                            <constraint firstItem="nlc-LP-WSz" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Uuv-Qf-uNF"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="nlc-LP-WSz" secondAttribute="bottom" id="qlw-lO-iQB"/>
+                            <constraint firstItem="Fv4-2M-yOE" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="10" id="BTP-zk-bXy"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Fv4-2M-yOE" secondAttribute="trailing" id="G23-MK-PlJ"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Fv4-2M-yOE" secondAttribute="bottom" constant="10" id="OW9-O9-XSX"/>
+                            <constraint firstItem="Fv4-2M-yOE" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="gIV-vD-8dT"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
-                        <outlet property="batteryLevelButton" destination="UyB-eg-Vuo" id="9lY-v4-FaU"/>
+                        <outlet property="batteryLevelLabel" destination="eCB-ro-gzf" id="aC2-1Z-2jG"/>
                         <outlet property="chargeStatusLabel" destination="4Ed-Xs-Mbl" id="WoO-hF-fD2"/>
                         <outlet property="tableView" destination="dzi-MZ-WNQ" id="Czz-3B-C2H"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="536" y="215"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="NcG-WB-PyA">
-            <objects>
-                <viewController id="iIV-ht-9u2" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="DCb-ar-CFq"/>
-                        <viewControllerLayoutGuide type="bottom" id="fDO-oA-Zro"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Hfu-UL-UTo">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="v8B-5R-OFE" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1243" y="326"/>
+            <point key="canvasLocation" x="762" y="256"/>
         </scene>
     </scenes>
 </document>
