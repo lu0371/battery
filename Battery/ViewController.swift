@@ -157,7 +157,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         print ("cellForRowAtIndexPath \(indexPath.row)")
         let cell = tableView.dequeueReusableCellWithIdentifier("batteryCell", forIndexPath: indexPath) as! customTableViewCell
         
-        cell.deviceName?.text = devices[indexPath.row].deviceName + " " + devices[indexPath.row].batteryState
+        cell.deviceName?.text = devices[indexPath.row].deviceName
         cell.batteryLevel?.text = devices[indexPath.row].formattedBatteryLevel
         cell.status?.text = devices[indexPath.row].statusSymbol
         cell.status?.textColor = devices[indexPath.row].statusColor
