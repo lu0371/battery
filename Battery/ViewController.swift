@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 
+
+
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet var batteryLevelLabel: UILabel!
@@ -31,6 +33,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.batteryLevelChanged), name: UIDeviceBatteryStateDidChangeNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.batteryLevelChanged), name: NSProcessInfoPowerStateDidChangeNotification, object: nil)
 
+        
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        let mainQueue = NSOperationQueue.mainQueue()
+        _ = notificationCenter.addObserverForName("dataChanged", object:nil, queue: mainQueue) { _ in
+            self.tableView.reloadData()
+        }
+        
         
         // run a background task every fifteen minutes to call batteryLevelChanged
         //
@@ -88,8 +97,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     let json = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments)
                     print ("++++ \(json.count)")
                     for jsonItem in json as! [Dictionary<String, AnyObject>] {
-                        print(".")
-                        
                         let device = DeviceData ()
                         
                         device.deviceName = jsonItem["deviceName"] as! String
@@ -162,7 +169,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         print("screen resolution changed")
-        // refreshUI()
+        refreshUI()
     }
     
     func refreshUI() {

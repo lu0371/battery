@@ -114,8 +114,61 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         case UIApplicationState.Background:
             print ("notification received by AppDeligate whilst in background")
         }
+        print ("______")
         print (userInfo)
+        print ("______")
         
+        let payloadString: String
+        if let payload = userInfo["payload"] as? String {
+            payloadString = payload
+            print (payloadString)
+            
+            do {
+                let data = payloadString.dataUsingEncoding(NSUTF8StringEncoding)
+                let json = try NSJSONSerialization.JSONObjectWithData(data! , options: .AllowFragments)
+                print ("****\(json.count)")
+                for jsonItem in json as! [Dictionary<String, AnyObject>] {
+                    print(".")
+                    
+                    let device = DeviceData ()
+                    
+                    device.deviceName = jsonItem["deviceName"] as! String
+                    device.batteryLevel = jsonItem["batteryLevel"] as! Float
+                    device.batteryState = jsonItem["batteryState"] as! String
+                    device.uuid = jsonItem["uuid"] as! String
+                    device.timeStamp = NSDate(timeIntervalSince1970: (jsonItem["timeStamp"] as! Double))
+                    
+                    if devices.count > 0 {
+                        var found = false
+                        for var d in devices {
+                            if d.uuid == device.uuid {
+                                found = true
+                                d.deviceName = device.deviceName
+                                d.batteryLevel = device.batteryLevel
+                                d.batteryState = device.batteryState
+                                d.uuid = device.uuid
+                                d.timeStamp = device.timeStamp
+                                print ("%")
+                            }
+                        }
+                        if found == false {
+                            devices.append(device)
+                            print ("+")
+                        }
+                    } else {
+                        devices.append(device)
+                        print ("+")
+                    }
+                }
+                
+            } catch let error as NSError {
+                print("JSON Serialization failed. Error: \(error)")
+            }
+            let center = NSNotificationCenter.defaultCenter()
+            center.postNotificationName("dataChanged", object: self)
+            print ("JSON processing done")
+        }
+
         completionHandler(UIBackgroundFetchResult.NewData)
     }
 
