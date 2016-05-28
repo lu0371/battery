@@ -164,6 +164,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return cell
     }
     
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        var screenWidth:CGFloat=0
+        var screenHeight:CGFloat=0
+        screenWidth=UIScreen.mainScreen().bounds.width
+        screenHeight=UIScreen.mainScreen().bounds.height
+        print("screen resolution changed: "+screenWidth.description+" x "+screenHeight.description)
+        refreshUI()
+    }
+    
     func refreshUI() {
         dispatch_async(dispatch_get_main_queue(),{
             self.tableView.reloadData()
