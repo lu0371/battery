@@ -73,7 +73,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         var bodyData = "&device=" + UIDevice.currentDevice().name
         bodyData += "&batterystate=" + s.batteryState
         bodyData += "&reason=changed"
-        bodyData += "&uuid=" + UIDevice.currentDevice().identifierForVendor!.UUIDString
+        bodyData += "&uuid=" + myDeviceID
         bodyData += "&batterylevel=\(UIDevice.currentDevice().batteryLevel)"
         request.HTTPBody = bodyData.dataUsingEncoding(NSUTF8StringEncoding)
         

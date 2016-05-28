@@ -9,6 +9,9 @@
 import UIKit
 
 
+let myDeviceID: String = UIDevice.currentDevice().identifierForVendor!.UUIDString
+
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -30,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(5 * 60)
         
         UIDevice.currentDevice().batteryMonitoringEnabled = true
-
+        
         return true
     }
     
@@ -62,7 +65,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var bodyData = "&device=" + UIDevice.currentDevice().name
         bodyData += "&batterystate=" + chargeStatus
         bodyData += "&reason=background"
-        bodyData += "&uuid=" + UIDevice.currentDevice().identifierForVendor!.UUIDString
+        bodyData += "&uuid=" + myDeviceID
         bodyData += "&batterylevel=\(UIDevice.currentDevice().batteryLevel)"
         request.HTTPBody = bodyData.dataUsingEncoding(NSUTF8StringEncoding)
         
