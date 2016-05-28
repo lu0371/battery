@@ -70,7 +70,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         print(chargeStatus + " " + batteryLevel!)
         
-        let request = NSMutableURLRequest(URL: NSURL(string: "https://www.trease.eu/ibeacon/battery/")!)
+        let request = NSMutableURLRequest(URL: NSURL(string: "https://www.trease.eu/battery/battery/")!)
         request.HTTPMethod = "POST"
         var bodyData = "&device=" + UIDevice.currentDevice().name
         bodyData += "&batterystate=" + chargeStatus

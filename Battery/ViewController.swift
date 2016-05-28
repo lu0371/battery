@@ -68,7 +68,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         chargeStatusLabel.text = s.statusSymbol
         chargeStatusLabel.textColor = s.statusColor
         
-        let request = NSMutableURLRequest(URL: NSURL(string: "https://www.trease.eu/ibeacon/battery/")!)
+        let request = NSMutableURLRequest(URL: NSURL(string: "https://www.trease.eu/battery/battery/")!)
         request.HTTPMethod = "POST"
         var bodyData = "&device=" + UIDevice.currentDevice().name
         bodyData += "&batterystate=" + s.batteryState
@@ -134,11 +134,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         task.resume()
     }
     
-//    @IBAction func refreshButton(sender: AnyObject) {
-//        print("refresh button pressed")
-//        batteryLevelChanged()
-//    }
-
     override func didReceiveMemoryWarning() {
         print("didRecieveMemoryWarning")
         super.didReceiveMemoryWarning()
@@ -153,7 +148,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        print ("cellForRowAtIndexPath \(indexPath.row)")
+        // print ("cellForRowAtIndexPath \(indexPath.row)")
         let cell = tableView.dequeueReusableCellWithIdentifier("batteryCell", forIndexPath: indexPath) as! customTableViewCell
         
         cell.deviceName?.text = devices[indexPath.row].deviceName
@@ -165,12 +160,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        var screenWidth:CGFloat=0
-        var screenHeight:CGFloat=0
-        screenWidth=UIScreen.mainScreen().bounds.width
-        screenHeight=UIScreen.mainScreen().bounds.height
-        print("screen resolution changed: "+screenWidth.description+" x "+screenHeight.description)
-        refreshUI()
+        print("screen resolution changed")
+        // refreshUI()
     }
     
     func refreshUI() {
