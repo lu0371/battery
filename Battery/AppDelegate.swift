@@ -9,7 +9,8 @@
 import UIKit
 
 
-var myDeviceID: String = UIDevice.currentDevice().identifierForVendor!.UUIDString
+let myDeviceID: String = UIDevice.currentDevice().identifierForVendor!.UUIDString
+var myPushToken: String = "init"
 
 
 @UIApplicationMain
@@ -76,7 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         bodyData += "&batterystate=" + chargeStatus
         bodyData += "&reason=background"
         bodyData += "&uuid=" + myDeviceID
-        bodyData += "&token=" + myDeviceID
+        bodyData += "&PushToken=" + myPushToken
         bodyData += "&batterylevel=\(UIDevice.currentDevice().batteryLevel)"
         request.HTTPBody = bodyData.dataUsingEncoding(NSUTF8StringEncoding)
         
@@ -95,11 +96,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken:NSData) {
         // let existingToken: AnyObject? = NSUserDefaults.standardUserDefaults().objectForKey("deviceToken")
         print("device token is " + deviceToken.description)
-        myDeviceID = deviceToken.description;
+        myPushToken = deviceToken.description;
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error:NSError) {
         print("Failed to register device token")
+        myPushToken = "no push token"
         print( error.localizedDescription )
     }
     
