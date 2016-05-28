@@ -19,6 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        let versionNumber: AnyObject? = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"]
+        print ("version \(versionNumber!)")
+        
         switch (application.applicationState) {
         case UIApplicationState.Active:
             print ("didFinishLaunchingWithOptions - active")
@@ -27,6 +30,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         case UIApplicationState.Background:
             print ("didFinishLaunchingWithOptions - background")
         }
+
+        // register for notifications
+        let types: UIUserNotificationType =
+        [UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound]
+        let settings: UIUserNotificationSettings = UIUserNotificationSettings( forTypes: types, categories: nil )
+        application.registerUserNotificationSettings( settings )
+        application.registerForRemoteNotifications()
         
         // UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         // every 5 minutes
@@ -81,6 +91,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken:NSData) {
+        // let existingToken: AnyObject? = NSUserDefaults.standardUserDefaults().objectForKey("deviceToken")
+        print("device token is " + deviceToken.description)
+    }
+    
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error:NSError) {
+        print("Failed to register device token")
+        print( error.localizedDescription )
+    }
+    
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+        switch (application.applicationState) {
+        case UIApplicationState.Active:
+            print ("notification received by AppDeligate whilst active")
+        case UIApplicationState.Inactive:
+            print ("notification received by AppDeligate whilst inactive")
+        case UIApplicationState.Background:
+            print ("notification received by AppDeligate whilst in background")
+        }
+        print (userInfo)
+        
+        completionHandler(UIBackgroundFetchResult.NewData)
+    }
 
 
     func applicationWillResignActive(application: UIApplication) {

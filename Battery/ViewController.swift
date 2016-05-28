@@ -85,8 +85,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 
                 do {
                     let json = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments)
-                    print ("++++")
-                    print (json.count)
+                    print ("++++ \(json.count)")
                     for jsonItem in json as! [Dictionary<String, AnyObject>] {
                         print(".")
                         
