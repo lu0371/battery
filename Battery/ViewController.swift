@@ -43,13 +43,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         // run a background task every fifteen minutes to call batteryLevelChanged
         //
-        // backgroundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({
-             // UIApplication.sharedApplication().endBackgroundTask(self.backgroundTaskIdentifier!)
-        // })
-        // _ = NSTimer.scheduledTimerWithTimeInterval(15 * 60.09, target: self, selector: #selector(ViewController.batteryLevelChanged), userInfo: nil, repeats: true)
+        backgroundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({
+            UIApplication.sharedApplication().endBackgroundTask(self.backgroundTaskIdentifier!)
+        })
+        _ = NSTimer.scheduledTimerWithTimeInterval(15 * 60.09, target: self, selector: #selector(ViewController.batteryLevelChanged), userInfo: nil, repeats: true)
         
         // call batteryLevelChanged once per second when in foreground
-        // _ = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("batteryLevelChanged"), userInfo: nil, repeats: true)
+        // _ = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(ViewController.batteryLevelChanged), userInfo: nil, repeats: true)
 
     }
 
@@ -163,6 +163,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         cell.batteryLevel?.text = devices[indexPath.row].formattedBatteryLevel
         cell.status?.text = devices[indexPath.row].statusSymbol
         cell.status?.textColor = devices[indexPath.row].statusColor
+        
+        cell.deviceName?.alpha = 0.0
+        cell.batteryLevel?.alpha = 0.0
+        cell.status?.alpha = 0.0
+        UIView.animateWithDuration(0.4, animations: {
+            cell.deviceName?.alpha = 1.0
+            cell.batteryLevel?.alpha = 1.0
+            cell.status?.alpha = 1.0
+        })
 
         return cell
     }
