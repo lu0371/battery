@@ -164,13 +164,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         cell.status?.text = devices[indexPath.row].statusSymbol
         cell.status?.textColor = devices[indexPath.row].statusColor
         
-        cell.deviceName?.alpha = 0.0
-        cell.batteryLevel?.alpha = 0.0
-        cell.status?.alpha = 0.0
-        UIView.animateWithDuration(0.4, animations: {
-            cell.deviceName?.alpha = 1.0
-            cell.batteryLevel?.alpha = 1.0
-            cell.status?.alpha = 1.0
+        cell.alpha = 1/3
+        // cell.deviceName?.alpha = 0.
+        // cell.batteryLevel?.alpha = 0.0
+        // cell.status?.alpha = 0.0
+        UIView.animateWithDuration(0.45, animations: {
+            cell.alpha = 1.0
         })
 
         return cell
