@@ -159,18 +159,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // print ("cellForRowAtIndexPath \(indexPath.row)")
         let cell = tableView.dequeueReusableCellWithIdentifier("batteryCell", forIndexPath: indexPath) as! customTableViewCell
         
+        if (cell.deviceName?.text != devices[indexPath.row].deviceName ||
+            cell.batteryLevel?.text != devices[indexPath.row].formattedBatteryLevel ||
+            cell.status?.text != devices[indexPath.row].statusSymbol ||
+            cell.status?.textColor != devices[indexPath.row].statusColor) {
+        
+            cell.alpha = 1/3
+            UIView.animateWithDuration(0.45, animations: {
+                cell.alpha = 1.0
+            })
+        }
+    
         cell.deviceName?.text = devices[indexPath.row].deviceName
         cell.batteryLevel?.text = devices[indexPath.row].formattedBatteryLevel
         cell.status?.text = devices[indexPath.row].statusSymbol
         cell.status?.textColor = devices[indexPath.row].statusColor
-        
-        cell.alpha = 1/3
-        // cell.deviceName?.alpha = 0.
-        // cell.batteryLevel?.alpha = 0.0
-        // cell.status?.alpha = 0.0
-        UIView.animateWithDuration(0.45, animations: {
-            cell.alpha = 1.0
-        })
 
         return cell
     }
