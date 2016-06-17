@@ -29,24 +29,24 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         batteryLevelChanged()
         
         // set to update labels on battery status change notifications (only works in foreground)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.batteryLevelChanged), name: UIDeviceBatteryLevelDidChangeNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.batteryLevelChanged), name: UIDeviceBatteryStateDidChangeNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.batteryLevelChanged), name: NSProcessInfoPowerStateDidChangeNotification, object: nil)
+        NotificationCenter.default().addObserver(self, selector: #selector(ViewController.batteryLevelChanged), name: NSNotification.Name.UIDeviceBatteryLevelDidChange, object: nil)
+        NotificationCenter.default().addObserver(self, selector: #selector(ViewController.batteryLevelChanged), name: NSNotification.Name.UIDeviceBatteryStateDidChange, object: nil)
+        NotificationCenter.default().addObserver(self, selector: #selector(ViewController.batteryLevelChanged), name: NSNotification.Name.NSProcessInfoPowerStateDidChange, object: nil)
 
         
-        let notificationCenter = NSNotificationCenter.defaultCenter()
-        let mainQueue = NSOperationQueue.mainQueue()
-        _ = notificationCenter.addObserverForName("dataChanged", object:nil, queue: mainQueue) { _ in
+        let notificationCenter = NotificationCenter.default()
+        let mainQueue = OperationQueue.main()
+        _ = notificationCenter.addObserver(forName: "dataChanged" as NSNotification.Name, object:nil, queue: mainQueue) { _ in
             self.tableView.reloadData()
         }
         
         
         // run a background task every fifteen minutes to call batteryLevelChanged
         //
-        backgroundTaskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({
-            UIApplication.sharedApplication().endBackgroundTask(self.backgroundTaskIdentifier!)
+        backgroundTaskIdentifier = UIApplication.shared().beginBackgroundTask(expirationHandler: {
+            UIApplication.shared().endBackgroundTask(self.backgroundTaskIdentifier!)
         })
-        _ = NSTimer.scheduledTimerWithTimeInterval(15 * 60.09, target: self, selector: #selector(ViewController.batteryLevelChanged), userInfo: nil, repeats: true)
+        _ = Timer.scheduledTimer(timeInterval: 15 * 60.09, target: self, selector: #selector(ViewController.batteryLevelChanged), userInfo: nil, repeats: true)
         
         // call batteryLevelChanged once per second when in foreground
         // _ = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(ViewController.batteryLevelChanged), userInfo: nil, repeats: true)
@@ -57,19 +57,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func batteryLevelChanged() {
         print ("batteryLevelChanged")
         
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        UIApplication.shared().isNetworkActivityIndicatorVisible = true
 
         let s = DeviceData ()
-        s.batteryLevel = UIDevice.currentDevice().batteryLevel
+        s.batteryLevel = UIDevice.current().batteryLevel
         
-        switch UIDevice.currentDevice().batteryState {
-        case UIDeviceBatteryState.Unknown:
+        switch UIDevice.current().batteryState {
+        case UIDeviceBatteryState.unknown:
             s.batteryState = "Unknown"
-        case UIDeviceBatteryState.Unplugged:
+        case UIDeviceBatteryState.unplugged:
             s.batteryState = "Unplugged"
-        case UIDeviceBatteryState.Charging:
+        case UIDeviceBatteryState.charging:
             s.batteryState = "Charging"
-        case UIDeviceBatteryState.Full:
+        case UIDeviceBatteryState.full:
             s.batteryState = "Full"
         }
         
@@ -77,24 +77,24 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         chargeStatusLabel.text = s.statusSymbol
         chargeStatusLabel.textColor = s.statusColor
         
-        let request = NSMutableURLRequest(URL: NSURL(string: "https://www.trease.eu/battery/battery/")!)
-        request.HTTPMethod = "POST"
-        var bodyData = "&device=" + UIDevice.currentDevice().name
+        let request = NSMutableURLRequest(url: URL(string: "https://www.trease.eu/battery/battery/")!)
+        request.httpMethod = "POST"
+        var bodyData = "&device=" + UIDevice.current().name
         bodyData += "&batterystate=" + s.batteryState
         bodyData += "&reason=changed"
         bodyData += "&uuid=" + myDeviceID
         bodyData += "&PushToken=" + myPushToken
-        bodyData += "&batterylevel=\(UIDevice.currentDevice().batteryLevel)"
-        request.HTTPBody = bodyData.dataUsingEncoding(NSUTF8StringEncoding)
+        bodyData += "&batterylevel=\(UIDevice.current().batteryLevel)"
+        request.httpBody = bodyData.data(using: String.Encoding.utf8)
         
-        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
+        let task = URLSession.shared().dataTask(with: request as URLRequest) {
             data, response, error in
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-            if let httpResponse = response as? NSHTTPURLResponse {
+            UIApplication.shared().isNetworkActivityIndicatorVisible = true
+            if let httpResponse = response as? HTTPURLResponse {
                 print("http response \(httpResponse.statusCode)")
                 
                 do {
-                    let json = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments)
+                    let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
                     print ("++++ \(json.count)")
                     for jsonItem in json as! [Dictionary<String, AnyObject>] {
                         let device = DeviceData ()
@@ -103,7 +103,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                         device.batteryLevel = jsonItem["batteryLevel"] as! Float
                         device.batteryState = jsonItem["batteryState"] as! String
                         device.uuid = jsonItem["uuid"] as! String
-                        device.timeStamp = NSDate(timeIntervalSince1970: (jsonItem["timeStamp"] as! Double))
+                        device.timeStamp = Date(timeIntervalSince1970: (jsonItem["timeStamp"] as! Double))
                         
                         if devices.count > 0 {
                             var found = false
@@ -135,7 +135,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             } else {
                 print("error=\(error!.localizedDescription)")
             }
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            UIApplication.shared().isNetworkActivityIndicatorVisible = false
             print ("JSON processing done")
             self.refreshUI()
         }
@@ -148,47 +148,47 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Dispose of any resources that can be recreated.
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return devices.count
     }
-    func numberOfSectionsInTableView(tableView:UITableView) -> Int {
+    func numberOfSections(in tableView:UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // print ("cellForRowAtIndexPath \(indexPath.row)")
-        let cell = tableView.dequeueReusableCellWithIdentifier("batteryCell", forIndexPath: indexPath) as! customTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "batteryCell", for: indexPath) as! customTableViewCell
         
-        if (cell.deviceName?.text != devices[indexPath.row].deviceName ||
-            cell.batteryLevel?.text != devices[indexPath.row].formattedBatteryLevel ||
-            cell.status?.text != devices[indexPath.row].statusSymbol ||
-            cell.status?.textColor != devices[indexPath.row].statusColor) {
+        if (cell.deviceName?.text != devices[(indexPath as NSIndexPath).row].deviceName ||
+            cell.batteryLevel?.text != devices[(indexPath as NSIndexPath).row].formattedBatteryLevel ||
+            cell.status?.text != devices[(indexPath as NSIndexPath).row].statusSymbol ||
+            cell.status?.textColor != devices[(indexPath as NSIndexPath).row].statusColor) {
         
             cell.deviceName?.alpha = 1/3
             cell.batteryLevel?.alpha = 1/3
             cell.status?.alpha = 1/3
-            UIView.animateWithDuration(0.4, animations: {
+            UIView.animate(withDuration: 0.4, animations: {
                 cell.deviceName?.alpha = 1
                 cell.batteryLevel?.alpha = 1
                 cell.status?.alpha = 1
             })
         }
     
-        cell.deviceName?.text = devices[indexPath.row].deviceName
-        cell.batteryLevel?.text = devices[indexPath.row].formattedBatteryLevel
-        cell.status?.text = devices[indexPath.row].statusSymbol
-        cell.status?.textColor = devices[indexPath.row].statusColor
+        cell.deviceName?.text = devices[(indexPath as NSIndexPath).row].deviceName
+        cell.batteryLevel?.text = devices[(indexPath as NSIndexPath).row].formattedBatteryLevel
+        cell.status?.text = devices[(indexPath as NSIndexPath).row].statusSymbol
+        cell.status?.textColor = devices[(indexPath as NSIndexPath).row].statusColor
 
         return cell
     }
     
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         print("screen resolution changed")
         refreshUI()
     }
     
     func refreshUI() {
-        dispatch_async(dispatch_get_main_queue(),{
+        DispatchQueue.main.async(execute: {
             self.tableView.reloadData()
         });
     }

@@ -19,7 +19,7 @@ class DeviceData {
     var deviceName: String = ""
     var batteryLevel: Float = 0.0
     var batteryState: String = ""
-    var timeStamp = NSDate()
+    var timeStamp = Date()
     
     var statusSymbol: String {
         get {
@@ -45,21 +45,21 @@ class DeviceData {
         get {
             switch batteryState {
             case "Unknown":
-                return UIColor.blackColor()
+                return UIColor.black()
             case "Unplugged":
-                return  UIColor.grayColor()
+                return  UIColor.gray()
             case "Charging":
-                return UIColor.orangeColor()
+                return UIColor.orange()
             case "Full":
-                return UIColor.greenColor()
+                return UIColor.green()
             default:
-                return UIColor.blueColor()
+                return UIColor.blue()
             }
         }
     }
     var formattedBatteryLevel: String {
-        let formatter =  NSNumberFormatter()
-        formatter.numberStyle = .PercentStyle
-        return formatter.stringFromNumber(batteryLevel)!
+        let formatter =  NumberFormatter()
+        formatter.numberStyle = .percent
+        return formatter.string(from: batteryLevel)!
     }
 }
