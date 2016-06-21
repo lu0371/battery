@@ -55,6 +55,7 @@
 		AAB12A8B1B28869700957578 /* BatteryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BatteryUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB12A8F1B28869700957578 /* BatteryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryUITests.swift; sourceTree = "<group>"; };
 		AAB12A911B28869700957578 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AAE925D01D1479C60040DEBB /* Battery.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Battery.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +106,7 @@
 		AAB12A6E1B28869600957578 /* Battery */ = {
 			isa = PBXGroup;
 			children = (
+				AAE925D01D1479C60040DEBB /* Battery.entitlements */,
 				AA9C85B51CF22B2800510457 /* customTableViewCell.swift */,
 				AAA300C51CECD7BD00E1625E /* fontawesome-webfont.ttf */,
 				AAB12A6F1B28869700957578 /* AppDelegate.swift */,
@@ -446,6 +448,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Battery/Battery.entitlements;
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = Battery/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -464,6 +467,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Battery/Battery.entitlements;
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = Battery/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

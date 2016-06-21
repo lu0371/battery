@@ -15,6 +15,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBOutlet var batteryLevelLabel: UILabel!
     @IBOutlet var chargeStatusLabel: UILabel!
+    @IBOutlet var batteryStatusLabel: UILabel!
     @IBOutlet var tableView: UITableView!
     
     var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
@@ -74,8 +75,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         
         batteryLevelLabel.text = s.formattedBatteryLevel
-        chargeStatusLabel.text = s.statusSymbol
+        chargeStatusLabel.text = s.batteryLevelIcon
         chargeStatusLabel.textColor = s.statusColor
+        if s.charging == true {
+            batteryStatusLabel.text = "\u{f0e7}"  // fa-flash
+        } else {
+            batteryStatusLabel.text = " "
+        }
         
         let request = NSMutableURLRequest(url: URL(string: "https://www.trease.eu/battery/battery/")!)
         request.httpMethod = "POST"
@@ -161,7 +167,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         if (cell.deviceName?.text != devices[(indexPath as NSIndexPath).row].deviceName ||
             cell.batteryLevel?.text != devices[(indexPath as NSIndexPath).row].formattedBatteryLevel ||
-            cell.status?.text != devices[(indexPath as NSIndexPath).row].statusSymbol ||
+            cell.status?.text != devices[(indexPath as NSIndexPath).row].batteryLevelIcon ||
             cell.status?.textColor != devices[(indexPath as NSIndexPath).row].statusColor) {
         
             cell.deviceName?.alpha = 1/3
@@ -176,9 +182,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
         cell.deviceName?.text = devices[(indexPath as NSIndexPath).row].deviceName
         cell.batteryLevel?.text = devices[(indexPath as NSIndexPath).row].formattedBatteryLevel
-        cell.status?.text = devices[(indexPath as NSIndexPath).row].statusSymbol
+        cell.status?.text = devices[(indexPath as NSIndexPath).row].batteryLevelIcon
         cell.status?.textColor = devices[(indexPath as NSIndexPath).row].statusColor
-
+        if devices[(indexPath as NSIndexPath).row].charging {
+            cell.chargeStatusLabel?.text = "\u{f0e7}"  // fa-flash
+        } else {
+            cell.chargeStatusLabel?.text = " "
+        }
+        
         return cell
     }
     

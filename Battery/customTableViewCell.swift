@@ -12,6 +12,7 @@ class customTableViewCell: UITableViewCell {
 
     @IBOutlet weak var status: UILabel!
     @IBOutlet weak var batteryLevel: UILabel!
+    @IBOutlet weak var chargeStatusLabel: UILabel!
     @IBOutlet weak var deviceName: UILabel!
     
     override func awakeFromNib() {

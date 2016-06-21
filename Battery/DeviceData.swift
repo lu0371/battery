@@ -21,7 +21,7 @@ class DeviceData {
     var batteryState: String = ""
     var timeStamp = Date()
     
-    var statusSymbol: String {
+    var batteryLevelIcon: String {
         get {
             switch (batteryLevel * 100) {
             case 0..<5:
@@ -41,6 +41,17 @@ class DeviceData {
             }
         }
     }
+    
+    var charging: Bool {
+        get {
+            if batteryState == "Charging" {
+                return true
+            } else {
+                return false
+            }
+        }
+    }
+    
     var statusColor: UIColor {
         get {
             switch batteryState {
@@ -57,6 +68,7 @@ class DeviceData {
             }
         }
     }
+    
     var formattedBatteryLevel: String {
         let formatter =  NumberFormatter()
         formatter.numberStyle = .percent
