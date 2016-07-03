@@ -94,9 +94,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken:Data) {
-        // let existingToken: AnyObject? = NSUserDefaults.standardUserDefaults().objectForKey("deviceToken")
-        print("device token is " + deviceToken.description)
-        myPushToken = deviceToken.description;
+        
+        let characterSet: CharacterSet = CharacterSet( charactersIn: "<>" )
+        let token: String = ( deviceToken.description as NSString )
+            .trimmingCharacters( in: characterSet )
+            .replacingOccurrences(of: " ", with: "" )
+        
+        print ("device token is \(token)")
+        
+        myPushToken = token;
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error:NSError) {
