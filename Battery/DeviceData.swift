@@ -35,9 +35,9 @@ class DeviceData {
             case 95...100:
                 return "\u{f240}"     // battery-full
             case -100:
-                return "\u{f0e7}"     // in simualtor
+                return "\u{f29c}"     // in simualtor
             default:
-                return "."
+                return "\u{f29c}"
             }
         }
     }
@@ -54,19 +54,11 @@ class DeviceData {
     
     var statusColor: UIColor {
         get {
-            switch batteryState {
-            case "Unknown":
-                return UIColor.black()
-            case "Unplugged":
-                return  UIColor.gray()
-            case "Charging":
-                return UIColor.orange()
-            case "Full":
+            if charging {
                 return UIColor.green()
-            default:
-                return UIColor.blue()
             }
-        }
+            return  UIColor.black()
+       }
     }
     
     var formattedBatteryLevel: String {

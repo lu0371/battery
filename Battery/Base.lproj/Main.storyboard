@@ -27,21 +27,32 @@
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Fv4-2M-yOE">
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Battery Status Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4sN-IH-z6k">
-                                        <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="46"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Charge status" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Ed-Xs-Mbl">
-                                        <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="46"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Battery Level Label" textAlignment="center" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eCB-ro-gzf" userLabel="Battery Level Label">
-                                        <fontDescription key="fontDescription" type="system" pointSize="46"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    <stackView opaque="NO" userInteractionEnabled="NO" contentMode="center" distribution="equalCentering" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Khr-Cg-c24">
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="right" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iHp-8b-naR">
+                                                <frame key="frameInset" minY="4" width="113" height="40"/>
+                                                <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="40"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qyb-JC-443">
+                                                <frame key="frameInset" minX="123" minY="4" width="98" height="40"/>
+                                                <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="40"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qbo-0E-DFn">
+                                                <frame key="frameInset" minX="231" width="113" height="48"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="Qyb-JC-443" firstAttribute="leading" secondItem="iHp-8b-naR" secondAttribute="trailing" constant="10" id="B9f-co-L4P"/>
+                                            <constraint firstItem="Qbo-0E-DFn" firstAttribute="leading" secondItem="Qyb-JC-443" secondAttribute="trailing" constant="10" id="enO-33-uHt"/>
+                                        </constraints>
+                                    </stackView>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dzi-MZ-WNQ">
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <prototypes>
@@ -92,6 +103,10 @@
                                         </connections>
                                     </tableView>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="Khr-Cg-c24" firstAttribute="centerX" secondItem="Fv4-2M-yOE" secondAttribute="centerX" id="Ipd-pe-ewg"/>
+                                    <constraint firstItem="dzi-MZ-WNQ" firstAttribute="top" secondItem="Khr-Cg-c24" secondAttribute="bottom" constant="25" id="qW4-Au-rUa"/>
+                                </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -103,9 +118,9 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="batteryLevelLabel" destination="eCB-ro-gzf" id="aC2-1Z-2jG"/>
-                        <outlet property="batteryStatusLabel" destination="4sN-IH-z6k" id="NHS-SC-isH"/>
-                        <outlet property="chargeStatusLabel" destination="4Ed-Xs-Mbl" id="WoO-hF-fD2"/>
+                        <outlet property="batteryLevelLabel" destination="Qbo-0E-DFn" id="YVK-r5-aQS"/>
+                        <outlet property="batteryStatusLabel" destination="iHp-8b-naR" id="van-fr-LLR"/>
+                        <outlet property="chargeStatusLabel" destination="Qyb-JC-443" id="JTY-B2-Uh6"/>
                         <outlet property="tableView" destination="dzi-MZ-WNQ" id="Czz-3B-C2H"/>
                     </connections>
                 </viewController>
