@@ -30,13 +30,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         batteryLevelChanged()
         
         // set to update labels on battery status change notifications (only works in foreground)
-        NotificationCenter.default().addObserver(self, selector: #selector(ViewController.batteryLevelChanged), name: NSNotification.Name.UIDeviceBatteryLevelDidChange, object: nil)
-        NotificationCenter.default().addObserver(self, selector: #selector(ViewController.batteryLevelChanged), name: NSNotification.Name.UIDeviceBatteryStateDidChange, object: nil)
-        NotificationCenter.default().addObserver(self, selector: #selector(ViewController.batteryLevelChanged), name: NSNotification.Name.NSProcessInfoPowerStateDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.batteryLevelChanged), name: NSNotification.Name.UIDeviceBatteryLevelDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.batteryLevelChanged), name: NSNotification.Name.UIDeviceBatteryStateDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.batteryLevelChanged), name: NSNotification.Name.NSProcessInfoPowerStateDidChange, object: nil)
 
         
-        let notificationCenter = NotificationCenter.default()
-        let mainQueue = OperationQueue.main()
+        let notificationCenter = NotificationCenter.default
+        let mainQueue = OperationQueue.main
         _ = notificationCenter.addObserver(forName: "dataChanged" as NSNotification.Name, object:nil, queue: mainQueue) { _ in
             self.tableView.reloadData()
         }
@@ -93,7 +93,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         bodyData += "&batterylevel=\(UIDevice.current().batteryLevel)"
         request.httpBody = bodyData.data(using: String.Encoding.utf8)
         
-        let task = URLSession.shared().dataTask(with: request as URLRequest) {
+        let task = URLSession.shared.dataTask(with: request as URLRequest) {
             data, response, error in
             UIApplication.shared().isNetworkActivityIndicatorVisible = true
             if let httpResponse = response as? HTTPURLResponse {

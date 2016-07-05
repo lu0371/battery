@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        let versionNumber: AnyObject? = Bundle.main().infoDictionary?["CFBundleVersion"]
+        let versionNumber: AnyObject? = Bundle.main.infoDictionary?["CFBundleVersion"]
         print ("version \(versionNumber!)")
         
         switch (application.applicationState) {
@@ -81,7 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         bodyData += "&batterylevel=\(UIDevice.current().batteryLevel)"
         request.httpBody = bodyData.data(using: String.Encoding.utf8)
         
-        let task = URLSession.shared().dataTask(with: request as URLRequest) {
+        let task = URLSession.shared.dataTask(with: request as URLRequest) {
             data, response, error in
             
             let x = response as? HTTPURLResponse
@@ -170,7 +170,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             } catch let error as NSError {
                 print("JSON Serialization failed. Error: \(error)")
             }
-            let center = NotificationCenter.default()
+            let center = NotificationCenter.default
             center.post(name: Notification.Name(rawValue: "dataChanged"), object: self)
             print ("JSON processing done")
         }
